@@ -9,6 +9,11 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
+  callbacks: {
+    async redirect({ url, baseUrl }) {
+      return `${baseUrl}/portal`;
+    },
+  },
 };
 
 export const getSessionFromServer = () => {
