@@ -1,4 +1,4 @@
-import { getSessionFromServer } from '@/utils/auth';
+import { getSessionFromServer } from '@/lib/auth';
 import { RedirectType } from 'next/dist/client/components/redirect';
 import { redirect } from 'next/navigation';
 
@@ -10,7 +10,7 @@ export default async function PortalLayout({
   children: React.ReactNode;
 }) {
   const session = await getSessionFromServer();
-  console.log('server session', session);
+  // console.log('server session', session);
 
   if (!session) {
     redirect('/', RedirectType.replace);
