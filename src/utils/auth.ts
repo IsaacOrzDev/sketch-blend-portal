@@ -13,6 +13,22 @@ export const authOptions: AuthOptions = {
     async redirect({ url, baseUrl }) {
       return `${baseUrl}/portal`;
     },
+
+    async signIn({ user, account, profile, email, credentials }) {
+      console.log('account', account);
+      return true;
+    },
+    async jwt({ token, user, account, profile }) {
+      token.apiAccessToken = 'testing';
+      return token;
+    },
+
+    async session({ session, token, user }) {
+      // session.user.id = token.id;
+      (session as any).apiAccessToken = token.apiAccessToken;
+
+      return session;
+    },
   },
 };
 
