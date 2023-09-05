@@ -2,6 +2,7 @@ import { DefaultService } from '@/services/openapi';
 import { AuthOptions, getServerSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -13,6 +14,19 @@ export const authOptions: AuthOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    }),
+    CredentialsProvider({
+      name: 'email-password-less',
+      credentials: {
+        oneTimeToken: {
+          label: 'Token',
+          type: 'password',
+        },
+      },
+      async authorize(credentials) {
+        if (!credentials) return null;
+        return { id: '', name: '', email: '' };
+      },
     }),
   ],
   callbacks: {
@@ -40,9 +54,10 @@ export const authOptions: AuthOptions = {
       }
     },
     async jwt({ token, user, account, profile }) {
-      const apiAccessToken =
-        await DefaultService.authControllerGenerateAccessToken();
-      token.apiAccessToken = apiAccessToken;
+      // const apiAccessToken =
+      //   await DefaultService.authControllerGenerateAccessToken();
+      // token.apiAccessToken = apiAccessToken;
+      token.apiAccessToken = 'token';
       return token;
     },
 
