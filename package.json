@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "code-gen": "openapi -i http://localhost:3001/api-json -o src/services/openapi"
   },
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^2.0.5",
@@ -31,5 +32,9 @@
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^6.5.4",
+    "openapi-typescript-codegen": "^0.25.0"
   }
 }

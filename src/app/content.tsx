@@ -1,6 +1,6 @@
 'use client';
 
-import { DemoCreateAccount } from '@/components/create-account';
+import { CreateAccount } from '@/components/create-account';
 import { ModeToggle } from '@/components/mode-toggle';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -15,7 +15,7 @@ export default function HomeContent() {
         <ModeToggle />
         <Button onClick={() => router.push('/api/auth/signin')}>Signin</Button>
       </Card> */}
-      <DemoCreateAccount />
+      <CreateAccount />
     </main>
   );
 }
