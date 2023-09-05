@@ -20,10 +20,7 @@ import { OpenAPI } from '@/services/openapi';
 OpenAPI.BASE = process.env.NEXT_PUBLIC_API_BASE_URL!;
 
 export function CreateAccount() {
-  const onSubmit = () => {
-    const token = DefaultService.authControllerGenerateAccessToken();
-    console.log('token', token);
-  };
+  const onSubmit = () => {};
 
   return (
     <Card>
@@ -35,7 +32,7 @@ export function CreateAccount() {
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="grid grid-cols-2 gap-6">
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => signIn('github')}>
             <Icons.gitHub className="mr-2 h-4 w-4" />
             Github
           </Button>

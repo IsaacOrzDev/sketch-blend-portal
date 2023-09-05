@@ -1,5 +1,7 @@
+import { DefaultService } from '@/services/openapi';
 import { AuthOptions, getServerSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
+import GithubProvider from 'next-auth/providers/github';
 
 export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -7,6 +9,10 @@ export const authOptions: AuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+    GithubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
     }),
   ],
   callbacks: {
@@ -16,17 +22,33 @@ export const authOptions: AuthOptions = {
 
     async signIn({ user, account, profile, email, credentials }) {
       console.log('account', account);
-      return true;
+      switch (account?.provider) {
+        case 'google':
+          const result = await DefaultService.authControllerVerifyGoogleIdToken(
+            {
+              token: account.id_token!,
+            }
+          );
+          if (!result) {
+            return false;
+          }
+          return true;
+        case 'github':
+          return true;
+        default:
+          return false;
+      }
     },
     async jwt({ token, user, account, profile }) {
-      token.apiAccessToken = 'testing';
+      const apiAccessToken =
+        await DefaultService.authControllerGenerateAccessToken();
+      token.apiAccessToken = apiAccessToken;
       return token;
     },
 
     async session({ session, token, user }) {
       // session.user.id = token.id;
       (session as any).apiAccessToken = token.apiAccessToken;
-
       return session;
     },
   },
