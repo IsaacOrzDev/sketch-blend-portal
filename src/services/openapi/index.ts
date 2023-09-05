@@ -7,6 +7,9 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
-export type { VerifyGoogleIdTokenDto } from './models/VerifyGoogleIdTokenDto';
+export type { SendEmailForPasswordLessDto } from './models/SendEmailForPasswordLessDto';
+export type { verifyPasswordLessToken } from './models/verifyPasswordLessToken';
+export type { VerifyTokenDto } from './models/VerifyTokenDto';
 
+export { AuthService } from './services/AuthService';
 export { DefaultService } from './services/DefaultService';

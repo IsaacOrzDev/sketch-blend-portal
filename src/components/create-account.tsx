@@ -20,7 +20,9 @@ import { OpenAPI } from '@/services/openapi';
 OpenAPI.BASE = process.env.NEXT_PUBLIC_API_BASE_URL!;
 
 export function CreateAccount() {
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    signIn('credentials');
+  };
 
   return (
     <Card>

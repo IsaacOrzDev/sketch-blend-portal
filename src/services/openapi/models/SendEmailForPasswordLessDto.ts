@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type VerifyGoogleIdTokenDto = {
-    token: string;
+export type SendEmailForPasswordLessDto = {
+    email: string;
 };
 
