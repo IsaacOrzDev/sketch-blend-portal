@@ -3,9 +3,6 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import NextAuthProvider from '../components/next-auth-provider';
 import { ThemeProvider } from '@/components/theme-provider';
-import { OpenAPI } from '@/services/openapi';
-
-OpenAPI.BASE = process.env.NEXT_PUBLIC_API_BASE_URL!;
 
 const inter = Inter({ subsets: ['latin'] });
 

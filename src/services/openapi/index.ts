@@ -8,7 +8,6 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { SendEmailForPasswordLessDto } from './models/SendEmailForPasswordLessDto';
-export type { verifyPasswordLessToken } from './models/verifyPasswordLessToken';
 export type { VerifyTokenDto } from './models/VerifyTokenDto';
 
 export { AuthService } from './services/AuthService';

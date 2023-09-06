@@ -3,14 +3,44 @@ import { Account, AuthOptions, User, getServerSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import apiService from '@/services/api-service';
 
 type CustomUser = User & {
   apiAccessToken?: string;
 };
 
 const verifyOAuthToken = async (
-  account: Account,
-  params: { withAccessToken: boolean }
+  account: Account
+): Promise<
+  | {
+      error?: string;
+      success?: boolean;
+    }
+  | undefined
+> => {
+  try {
+    switch (account.provider) {
+      case 'google':
+        const googleResult =
+          await apiService.auth.authControllerVerifyGoogleIdToken({
+            token: account.id_token!,
+          });
+        return googleResult;
+      case 'github':
+        const githubResult =
+          await AuthService.authControllerVerifyGithubAccessToken({
+            token: account.access_token!,
+          });
+        return githubResult;
+    }
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+const signInWithOAuthToken = async (
+  account: Account
 ): Promise<
   | {
       error?: string;
@@ -23,16 +53,14 @@ const verifyOAuthToken = async (
     switch (account.provider) {
       case 'google':
         const googleResult =
-          await AuthService.authControllerVerifyGoogleIdToken({
+          await apiService.auth.authControllerSignInWithGoogleIdToken({
             token: account.id_token!,
-            withAccessToken: params.withAccessToken,
           });
         return googleResult;
       case 'github':
         const githubResult =
-          await AuthService.authControllerVerifyGithubAccessToken({
+          await AuthService.authControllerSignInWithGithubAccessToken({
             token: account.access_token!,
-            withAccessToken: params.withAccessToken,
           });
         return githubResult;
     }
@@ -64,9 +92,11 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         console.log('credentials', credentials);
         if (!credentials?.oneTimeToken) return null;
-        const result = await AuthService.authControllerVerifyPasswordLessToken({
-          token: credentials.oneTimeToken,
-        });
+        const result =
+          await apiService.auth.authControllerSignInWithPasswordLessToken({
+            token: credentials.oneTimeToken,
+          });
+
         return {
           id: 'id',
           name: 'name',
@@ -83,18 +113,14 @@ export const authOptions: AuthOptions = {
     },
 
     async signIn({ user, account, profile, email, credentials }) {
-      if (account?.provider === 'credentials') {
-        return true;
-      }
-      const result = await verifyOAuthToken(account!, {
-        withAccessToken: false,
-      });
+      const result = await verifyOAuthToken(account!);
       if (result && !result.error) {
         return true;
       } else if (result?.error) {
         console.log(result.error);
+        return false;
       }
-      return false;
+      return true;
     },
     async jwt({ token, user, account, profile, trigger }) {
       if (trigger !== 'signIn') {
@@ -109,9 +135,8 @@ export const authOptions: AuthOptions = {
       }
 
       if (!!account) {
-        const result = await verifyOAuthToken(account, {
-          withAccessToken: true,
-        });
+        const result = await signInWithOAuthToken(account);
+        console.log('result', result);
         if (result && !!result.token) {
           token.apiAccessToken = result.token;
           token.expires = result.expiredAt;

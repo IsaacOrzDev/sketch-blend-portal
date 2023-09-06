@@ -5,6 +5,5 @@
 
 export type VerifyTokenDto = {
     token: string;
-    withAccessToken: boolean | null;
 };
 
