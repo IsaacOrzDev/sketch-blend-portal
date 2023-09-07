@@ -3,8 +3,19 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import NextAuthProvider from '../components/next-auth-provider';
 import { ThemeProvider } from '@/components/theme-provider';
+import Sentry from '@sentry/nextjs';
 
 const inter = Inter({ subsets: ['latin'] });
+
+Sentry.init({
+  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  integrations: [new Sentry.BrowserTracing(), new Sentry.Replay()],
+  // Performance Monitoring
+  tracesSampleRate: 1.0, // Capture 100% of the transactions, reduce in production!
+  // Session Replay
+  replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+  replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
