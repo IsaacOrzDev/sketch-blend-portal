@@ -8,7 +8,7 @@ import Sentry from '@sentry/nextjs';
 const inter = Inter({ subsets: ['latin'] });
 
 Sentry.init({
-  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  dsn: 'https://3d12a662c7efa3475a7aca214737cb8c@o1049401.ingest.sentry.io/4505836705021952',
   integrations: [new Sentry.BrowserTracing(), new Sentry.Replay()],
   // Performance Monitoring
   tracesSampleRate: 1.0, // Capture 100% of the transactions, reduce in production!
