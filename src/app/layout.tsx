@@ -1,9 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import NextAuthProvider from '../components/next-auth-provider';
 import { ThemeProvider } from '@/components/theme-provider';
-import * as Sentry from '@sentry/nextjs';
 import GoogleProvider from '@/components/google-provider';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -22,9 +20,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <NextAuthProvider>
-            <GoogleProvider>{children}</GoogleProvider>
-          </NextAuthProvider>
+          <GoogleProvider>{children}</GoogleProvider>
         </ThemeProvider>
       </body>
     </html>

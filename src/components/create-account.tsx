@@ -12,7 +12,6 @@ import {
 } from '@/components/registry/card';
 import { Input } from '@/components/registry/input';
 import { Label } from '@/components/registry/label';
-import { signIn } from 'next-auth/react';
 import { OpenAPI } from '@/services/openapi';
 import { useRouter } from 'next/navigation';
 import qs from 'qs';
@@ -23,9 +22,7 @@ OpenAPI.BASE = process.env.NEXT_PUBLIC_API_BASE_URL!;
 export function CreateAccount() {
   const router = useRouter();
 
-  const onSubmit = () => {
-    signIn('credentials');
-  };
+  const onSubmit = () => {};
 
   const googleLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => {
