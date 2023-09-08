@@ -12,16 +12,28 @@ import {
 } from '@/components/registry/card';
 import { Input } from '@/components/registry/input';
 import { Label } from '@/components/registry/label';
-import { DefaultService } from '@/services/openapi';
 import { signIn } from 'next-auth/react';
 
 import { OpenAPI } from '@/services/openapi';
+import { useRouter } from 'next/navigation';
+import qs from 'qs';
 
 OpenAPI.BASE = process.env.NEXT_PUBLIC_API_BASE_URL!;
 
 export function CreateAccount() {
+  const router = useRouter();
+
   const onSubmit = () => {
     signIn('credentials');
+  };
+
+  const signInWithGithub = async () => {
+    const params = qs.stringify({
+      scope: 'user',
+      client_id: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID,
+      redirect_uri: process.env.NEXT_PUBLIC_BASE_URL,
+    });
+    router.push(`https://github.com/login/oauth/authorize?${params}`);
   };
 
   return (
@@ -34,7 +46,7 @@ export function CreateAccount() {
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="grid grid-cols-2 gap-6">
-          <Button variant="outline" onClick={() => signIn('github')}>
+          <Button variant="outline" onClick={signInWithGithub}>
             <Icons.gitHub className="mr-2 h-4 w-4" />
             Github
           </Button>
