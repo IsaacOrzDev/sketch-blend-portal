@@ -1,6 +1,7 @@
-import { getSessionFromServer } from '@/lib/auth';
 import { RedirectType } from 'next/dist/client/components/redirect';
 import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
+import COOKIES_CONFIG from '@/config/cookie-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,10 +10,10 @@ export default async function PortalLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getSessionFromServer();
-  // console.log('server session', session);
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get(COOKIES_CONFIG.ACCESS_TOKEN_KEY)?.value;
 
-  if (!session) {
+  if (!accessToken) {
     redirect('/', RedirectType.replace);
   }
 

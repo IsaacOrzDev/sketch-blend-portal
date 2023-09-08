@@ -13,10 +13,10 @@ import {
 import { Input } from '@/components/registry/input';
 import { Label } from '@/components/registry/label';
 import { signIn } from 'next-auth/react';
-
 import { OpenAPI } from '@/services/openapi';
 import { useRouter } from 'next/navigation';
 import qs from 'qs';
+import { useGoogleLogin } from '@react-oauth/google';
 
 OpenAPI.BASE = process.env.NEXT_PUBLIC_API_BASE_URL!;
 
@@ -26,6 +26,13 @@ export function CreateAccount() {
   const onSubmit = () => {
     signIn('credentials');
   };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      router.push('/api/auth/google?code=' + tokenResponse.code);
+    },
+    flow: 'auth-code',
+  });
 
   const signInWithGithub = async () => {
     const params = qs.stringify({
@@ -50,7 +57,7 @@ export function CreateAccount() {
             <Icons.gitHub className="mr-2 h-4 w-4" />
             Github
           </Button>
-          <Button variant="outline" onClick={() => signIn('google')}>
+          <Button variant="outline" onClick={() => googleLogin()}>
             <Icons.google className="mr-2 h-4 w-4" />
             Google
           </Button>
