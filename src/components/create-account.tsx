@@ -12,14 +12,11 @@ import {
 } from '@/components/registry/card';
 import { Input } from '@/components/registry/input';
 import { Label } from '@/components/registry/label';
-import { OpenAPI } from '@/services/openapi';
 import { useRouter } from 'next/navigation';
 import qs from 'qs';
 import { useGoogleLogin } from '@react-oauth/google';
 import fetchService from '@/services/fetch-service';
 import { useState } from 'react';
-
-OpenAPI.BASE = process.env.NEXT_PUBLIC_API_BASE_URL!;
 
 export function CreateAccount() {
   const router = useRouter();
@@ -31,6 +28,9 @@ export function CreateAccount() {
     const result = await fetchService.POST('/auth/password-less/send-email', {
       body: { email },
     });
+    if (!result.error) {
+      setSent(true);
+    }
   };
 
   const googleLogin = useGoogleLogin({
@@ -85,7 +85,7 @@ export function CreateAccount() {
             type="email"
             placeholder="email@example.com"
             value={email}
-            onClick={onProcessPasswordLessLogin}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
       </CardContent>
