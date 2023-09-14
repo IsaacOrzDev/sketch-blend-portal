@@ -16,13 +16,22 @@ import { OpenAPI } from '@/services/openapi';
 import { useRouter } from 'next/navigation';
 import qs from 'qs';
 import { useGoogleLogin } from '@react-oauth/google';
+import fetchService from '@/services/fetch-service';
+import { useState } from 'react';
 
 OpenAPI.BASE = process.env.NEXT_PUBLIC_API_BASE_URL!;
 
 export function CreateAccount() {
   const router = useRouter();
 
-  const onSubmit = () => {};
+  const [email, setEmail] = useState('');
+  const [sent, setSent] = useState(false);
+
+  const onProcessPasswordLessLogin = async () => {
+    const result = await fetchService.POST('/auth/password-less/send-email', {
+      body: { email },
+    });
+  };
 
   const googleLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => {
@@ -35,7 +44,7 @@ export function CreateAccount() {
     const params = qs.stringify({
       scope: 'user',
       client_id: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID,
-      redirect_uri: process.env.NEXT_PUBLIC_BASE_URL,
+      redirect_uri: `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/github`,
     });
     router.push(`https://github.com/login/oauth/authorize?${params}`);
   };
@@ -71,11 +80,17 @@ export function CreateAccount() {
         </div>
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" />
+          <Input
+            id="email"
+            type="email"
+            placeholder="email@example.com"
+            value={email}
+            onClick={onProcessPasswordLessLogin}
+          />
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" onClick={onSubmit}>
+        <Button className="w-full" onClick={onProcessPasswordLessLogin}>
           Create account
         </Button>
       </CardFooter>
