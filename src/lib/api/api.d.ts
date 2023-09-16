@@ -43,11 +43,6 @@ export interface components {
       token: string;
       isFirstTime: boolean;
     };
-    CustomResponse: {
-      /** @default 200 */
-      statusCode: number;
-      data: components["schemas"]["AuthenticateResponse"];
-    };
     ErrorResponse: {
       statusCode: number;
       message: string[];
@@ -57,6 +52,12 @@ export interface components {
     };
     VerifyTokenDto: {
       token: string;
+    };
+    VerifyTokenResponse: {
+      userId: string;
+      username: string;
+      email: string | null;
+      imageUrl: string | null;
     };
   };
   responses: never;
@@ -89,7 +90,7 @@ export interface operations {
       /** @description Authenticate with Google */
       201: {
         content: {
-          "application/json": components["schemas"]["CustomResponse"];
+          "application/json": components["schemas"]["AuthenticateResponse"];
         };
       };
       /** @description Bad Request */
@@ -116,7 +117,7 @@ export interface operations {
       /** @description Authenticate with Github */
       201: {
         content: {
-          "application/json": components["schemas"]["CustomResponse"];
+          "application/json": components["schemas"]["AuthenticateResponse"];
         };
       };
       /** @description Bad Request */
@@ -172,7 +173,21 @@ export interface operations {
     };
     responses: {
       201: {
-        content: never;
+        content: {
+          "application/json": components["schemas"]["VerifyTokenResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
       };
     };
   };

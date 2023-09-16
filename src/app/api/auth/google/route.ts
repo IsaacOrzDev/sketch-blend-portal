@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
       throw apiResult.error;
     }
 
-    const { token: accessToken, expiredAt, isFirstTime } = apiResult.data.data;
+    const { token: accessToken, expiredAt, isFirstTime } = apiResult.data;
 
     const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/portal`;
     const response = NextResponse.redirect(redirectUrl);
