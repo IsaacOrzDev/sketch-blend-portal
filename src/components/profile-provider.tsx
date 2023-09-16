@@ -9,7 +9,9 @@ interface Props {
   children: React.ReactNode;
 }
 
-const ProfileContext = createContext({});
+const ProfileContext = createContext<Omit<Props, 'children'>>({
+  username: '',
+});
 
 export function useProfileContext() {
   return useContext(ProfileContext);

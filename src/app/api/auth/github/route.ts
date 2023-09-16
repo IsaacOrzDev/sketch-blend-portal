@@ -8,6 +8,8 @@ const paramsSchema = z.object({
   code: z.string(),
 });
 
+export const dynamic = 'force-dynamic';
+
 export const GET = async (request: NextRequest) => {
   try {
     const { search } = request.nextUrl;

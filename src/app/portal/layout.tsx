@@ -1,9 +1,9 @@
-import { RedirectType } from 'next/dist/client/components/redirect';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import COOKIES_CONFIG from '@/config/cookie-config';
 import fetchService from '@/services/fetch-service';
 import ProfileProvider from '@/components/profile-provider';
+import Sidebar from '@/components/sidebar';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,7 +16,7 @@ export default async function PortalLayout({
   const accessToken = cookieStore.get(COOKIES_CONFIG.ACCESS_TOKEN_KEY)?.value;
 
   if (!accessToken) {
-    redirect('/', RedirectType.replace);
+    redirect('/');
   }
 
   const profile = await fetchService.POST('/auth/access-token/verify', {
@@ -24,10 +24,15 @@ export default async function PortalLayout({
   });
 
   if (!!profile.error) {
-    redirect('/', RedirectType.replace);
+    redirect('/');
   }
 
   console.log(profile.data);
 
-  return <ProfileProvider {...profile.data}>{children}</ProfileProvider>;
+  return (
+    <ProfileProvider {...profile.data}>
+      <Sidebar {...profile.data} />
+      {children}
+    </ProfileProvider>
+  );
 }
