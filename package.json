@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "code-gen": "openapi-typescript http://localhost:3001/api-json -o ./src/lib/api/api.d.ts"
+    "code-gen": "openapi-typescript http://localhost:3001/docs-json -o ./src/lib/api/api.d.ts"
   },
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^2.0.5",

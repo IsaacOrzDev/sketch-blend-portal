@@ -8,9 +8,6 @@ export interface paths {
   "/": {
     get: operations["AppController_getTesting"];
   };
-  "/auth/google/verify": {
-    post: operations["AuthController_verifyGoogleIdToken"];
-  };
   "/auth/google/authenticate": {
     post: operations["AuthController_authenticateGoogleUser"];
   };
@@ -26,20 +23,40 @@ export interface paths {
   "/auth/access-token/generate": {
     post: operations["AuthController_generateAccessToken"];
   };
+  "/auth/access-token/verify": {
+    post: operations["AuthController_verifyAccessToken"];
+  };
 }
 
 export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
-    VerifyTokenDto: {
-      token: string;
-    };
     AuthenticateGithubUserDto: {
       code: string;
     };
+    AuthenticateResponse: {
+      /** @default true */
+      success: boolean;
+      /** Format: date-time */
+      expiredAt: string;
+      token: string;
+      isFirstTime: boolean;
+    };
+    CustomResponse: {
+      /** @default 200 */
+      statusCode: number;
+      data: components["schemas"]["AuthenticateResponse"];
+    };
+    ErrorResponse: {
+      statusCode: number;
+      message: string[];
+    };
     SendEmailForPasswordLessDto: {
       email: string;
+    };
+    VerifyTokenDto: {
+      token: string;
     };
   };
   responses: never;
@@ -62,18 +79,6 @@ export interface operations {
       };
     };
   };
-  AuthController_verifyGoogleIdToken: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["VerifyTokenDto"];
-      };
-    };
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
   AuthController_authenticateGoogleUser: {
     requestBody: {
       content: {
@@ -81,8 +86,23 @@ export interface operations {
       };
     };
     responses: {
+      /** @description Authenticate with Google */
       201: {
-        content: never;
+        content: {
+          "application/json": components["schemas"]["CustomResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Cannot authenticate with Google */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
       };
     };
   };
@@ -93,8 +113,23 @@ export interface operations {
       };
     };
     responses: {
+      /** @description Authenticate with Github */
       201: {
-        content: never;
+        content: {
+          "application/json": components["schemas"]["CustomResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Cannot authenticate with Github */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
       };
     };
   };
@@ -123,6 +158,18 @@ export interface operations {
     };
   };
   AuthController_generateAccessToken: {
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  AuthController_verifyAccessToken: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VerifyTokenDto"];
+      };
+    };
     responses: {
       201: {
         content: never;

@@ -18,18 +18,11 @@ export const GET = async (request: NextRequest) => {
       body: { code: params.code },
     });
 
-    const error = apiResult.error as any;
-    const data = apiResult.data as any;
-
-    if (error) {
-      throw new Error(error);
+    if (apiResult.error) {
+      throw apiResult.error;
     }
 
-    if (!data.success) {
-      throw new Error(data.error);
-    }
-
-    const { token: accessToken, expiredAt } = data;
+    const { token: accessToken, expiredAt, isFirstTime } = apiResult.data.data;
 
     const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/portal`;
     const response = NextResponse.redirect(redirectUrl);
