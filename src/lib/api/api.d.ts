@@ -17,8 +17,11 @@ export interface paths {
   "/auth/password-less/send-email": {
     post: operations["AuthController_sendEmailForPasswordLess"];
   };
-  "/auth/password-less/signin": {
-    post: operations["AuthController_signInWithPasswordLessToken"];
+  "/auth/password-less/generate": {
+    post: operations["AuthController_generatePasswordLessToken"];
+  };
+  "/auth/password-less/authenticate": {
+    post: operations["AuthController_AuthenticatePasswordLessLogin"];
   };
   "/auth/access-token/generate": {
     post: operations["AuthController_generateAccessToken"];
@@ -48,6 +51,10 @@ export interface components {
       message: string[];
     };
     SendEmailForPasswordLessDto: {
+      email: string;
+    };
+    AddOneTimeTokenDto: {
+      username: string | null;
       email: string;
     };
     VerifyTokenDto: {
@@ -146,15 +153,56 @@ export interface operations {
       };
     };
   };
-  AuthController_signInWithPasswordLessToken: {
+  AuthController_generatePasswordLessToken: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["AddOneTimeTokenDto"];
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  AuthController_AuthenticatePasswordLessLogin: {
     requestBody: {
       content: {
         "application/json": components["schemas"]["VerifyTokenDto"];
       };
     };
     responses: {
+      /** @description Authenticate with Email */
       201: {
-        content: never;
+        content: {
+          "application/json": components["schemas"]["AuthenticateResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Cannot authenticate with Email */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
       };
     };
   };
