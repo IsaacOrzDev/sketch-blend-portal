@@ -27,8 +27,6 @@ export default async function PortalLayout({
     redirect('/');
   }
 
-  console.log(profile.data);
-
   return (
     <ProfileProvider {...profile.data}>
       <Sidebar {...profile.data} />
