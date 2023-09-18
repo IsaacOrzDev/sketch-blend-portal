@@ -6,6 +6,9 @@
 
 export interface paths {
   "/": {
+    get: operations["AppController_healthCheck"];
+  };
+  "/test": {
     get: operations["AppController_getTesting"];
   };
   "/auth/google/authenticate": {
@@ -28,6 +31,9 @@ export interface paths {
   };
   "/auth/access-token/verify": {
     post: operations["AuthController_verifyAccessToken"];
+  };
+  "/users": {
+    get: operations["UserController_findAllUsers"];
   };
 }
 
@@ -80,6 +86,13 @@ export type external = Record<string, never>;
 
 export interface operations {
 
+  AppController_healthCheck: {
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
   AppController_getTesting: {
     responses: {
       200: {
@@ -236,6 +249,13 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["ErrorResponse"];
         };
+      };
+    };
+  };
+  UserController_findAllUsers: {
+    responses: {
+      200: {
+        content: never;
       };
     };
   };
