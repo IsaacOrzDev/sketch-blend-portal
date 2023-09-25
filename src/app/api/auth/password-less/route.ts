@@ -27,12 +27,12 @@ export async function GET(request: NextRequest) {
       throw apiResult.error;
     }
 
-    const { token: accessToken, expiredAt, isFirstTime } = apiResult.data;
+    const { accessToken, expiresAtUtc, isFirstTime } = apiResult.data;
 
     const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/portal`;
     const response = NextResponse.redirect(redirectUrl);
     response.cookies.set(COOKIES_CONFIG.ACCESS_TOKEN_KEY, accessToken, {
-      expires: new Date(expiredAt),
+      expires: new Date(expiresAtUtc),
       httpOnly: true,
       sameSite: 'lax',
       path: '/',
