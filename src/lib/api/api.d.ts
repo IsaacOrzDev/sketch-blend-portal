@@ -35,6 +35,12 @@ export interface paths {
   "/users": {
     get: operations["UserController_findAllUsers"];
   };
+  "/generator/predict": {
+    get: operations["GeneratorController_predict"];
+  };
+  "/documents": {
+    get: operations["DocumentController_predict"];
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -48,8 +54,8 @@ export interface components {
       /** @default true */
       success: boolean;
       /** Format: date-time */
-      expiredAt: string;
-      token: string;
+      expiresAtUtc: string;
+      accessToken: string;
       isFirstTime: boolean;
     };
     ErrorResponse: {
@@ -71,6 +77,9 @@ export interface components {
       username: string;
       email: string | null;
       imageUrl: string | null;
+    };
+    PredictResponse: {
+      urls: string[];
     };
   };
   responses: never;
@@ -253,6 +262,39 @@ export interface operations {
     };
   };
   UserController_findAllUsers: {
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  GeneratorController_predict: {
+    parameters: {
+      query: {
+        prompt: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PredictResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  DocumentController_predict: {
     responses: {
       200: {
         content: never;

@@ -1,12 +1,14 @@
 'use client';
 
+import SketchCanvasPanel from '@/components/sketch-canvas-panel';
+import { ThemeProvider } from '@/components/theme-provider';
 import { useRouter } from 'next/navigation';
 
 export default function ClientComponent() {
   const router = useRouter();
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
-      <button onClick={() => {}}>Sign out</button>
-    </main>
+    <div className="flex flex-1 min-h-screen flex-col items-center">
+      <SketchCanvasPanel />
+    </div>
   );
 }

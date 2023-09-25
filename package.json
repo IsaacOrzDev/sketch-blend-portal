@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "code-gen": "openapi-typescript $(grep NEXT_PUBLIC_API_BASE_URL .env | cut -d '=' -f2)/docs-json -o ./src/lib/api/api.d.ts"
+    "code-gen": "openapi-typescript $(grep NEXT_PUBLIC_API_BASE_URL .env | cut -d '=' -f2)/docs-json -o ./src/lib/api/api.d.ts",
+    "code-gen:local": "openapi-typescript http://localhost:3001/docs-json -o ./src/lib/api/api.d.ts"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.0.3",

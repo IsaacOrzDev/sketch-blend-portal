@@ -15,7 +15,7 @@ export default function Sidebar(props: Props) {
   const router = useRouter();
 
   return (
-    <div className="h-screen bg-black w-[400px] p-8 flex flex-col">
+    <div className="h-screen bg-background w-[400px] p-8 flex flex-col">
       <div className="flex items-center">
         <Avatar className="w-14 h-14 mr-4">
           {props.imageUrl && <AvatarImage src={props.imageUrl} />}

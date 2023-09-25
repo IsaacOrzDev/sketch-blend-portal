@@ -8,7 +8,7 @@ import {
 } from 'react-sketch-canvas';
 
 export default function SketchCanvas(
-  props: ReactSketchCanvasProps & { canvasRef: Ref<ReactSketchCanvasRef> }
+  props: ReactSketchCanvasProps & { canvasRef?: Ref<ReactSketchCanvasRef> }
 ) {
   return <ReactSketchCanvas {...props} ref={props.canvasRef} />;
 }
