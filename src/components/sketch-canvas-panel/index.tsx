@@ -7,8 +7,6 @@ import { useTheme } from 'next-themes';
 import { useEffect, useRef, useState } from 'react';
 import { ReactSketchCanvasRef } from 'react-sketch-canvas';
 import dynamic from 'next/dynamic';
-import { canvasRecordAtom } from '@/state/canvas';
-import { useAtom } from 'jotai';
 
 const SketchCanvas = dynamic(() => import('./sketch-canvas'), {
   ssr: false,
@@ -16,6 +14,10 @@ const SketchCanvas = dynamic(() => import('./sketch-canvas'), {
 
 interface Props {
   onSave?: (data: { svg: string; image: string; paths: any }) => void;
+  record?: {
+    id: string;
+    paths: any;
+  };
 }
 
 export default function SketchCanvasPanel(props: Props) {
@@ -25,10 +27,12 @@ export default function SketchCanvasPanel(props: Props) {
 
   const { theme, setTheme } = useTheme();
 
-  const [canvasRecord] = useAtom(canvasRecordAtom);
-
   const loadCanvas = async () => {
-    const paths = canvasRecord.paths;
+    if (!props.record) {
+      return;
+    }
+
+    const paths = props.record.paths;
     if (paths) {
       await canvasRef.current?.resetCanvas();
       await canvasRef.current?.loadPaths(Object.values(paths));
@@ -36,12 +40,12 @@ export default function SketchCanvasPanel(props: Props) {
   };
 
   useEffect(() => {
-    if (canvasRecord.id) {
-      loadCanvas();
+    if (props.record?.id) {
+      setTimeout(() => {
+        loadCanvas();
+      }, 200);
     }
-    // setTheme('light');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canvasRecord.id]);
+  }, [props.record?.id]);
 
   return (
     <div className="relative w-full h-full dark:bg-[#1e1d1d]">

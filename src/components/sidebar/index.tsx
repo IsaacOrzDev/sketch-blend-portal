@@ -6,8 +6,6 @@ import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 import fetchService from '@/services/fetch-service';
-import { useAtom } from 'jotai';
-import { canvasRecordAtom } from '@/state/canvas';
 
 interface Props {
   username: string;
@@ -17,7 +15,6 @@ interface Props {
 
 export default function Sidebar(props: Props) {
   const router = useRouter();
-  const [, setCanvasRecord] = useAtom(canvasRecordAtom);
 
   const { data, error, isLoading } = useSWR('/documents', (url) =>
     fetchService
@@ -47,17 +44,13 @@ export default function Sidebar(props: Props) {
         </div>
       </div>
       <div className="flex-1 my-6">
+        <Button onClick={() => router.push('/portal/canvas/new')}>
+          New Canvas
+        </Button>
         {data?.records.map((record) => (
           <div
             key={record.id}
-            onClick={() =>
-              setCanvasRecord({
-                id: record.id,
-                title: record.title,
-                description: record.description ?? '',
-                paths: record.paths ?? {},
-              })
-            }
+            onClick={() => router.push(`/portal/canvas/${record.id}`)}
           >
             <Label>{record.title}</Label>
             <img src={record.image ?? ''} alt={record.title} />

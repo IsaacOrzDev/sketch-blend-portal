@@ -95,8 +95,16 @@ export interface components {
     GetDocumentListResponse: {
       records: components["schemas"]["DocumentDto"][];
     };
+    DocumentDetailDto: {
+      id: string;
+      title: string;
+      description: string | null;
+      svg: string | null;
+      image: string | null;
+      paths: Record<string, unknown> | null;
+    };
     GetDocumentResponse: {
-      record: components["schemas"]["DocumentDto"];
+      record: components["schemas"]["DocumentDetailDto"];
     };
     SaveDocumentDto: {
       title: string;
@@ -362,6 +370,11 @@ export interface operations {
     };
   };
   DocumentController_getOne: {
+    parameters: {
+      path: {
+        id: unknown;
+      };
+    };
     responses: {
       200: {
         content: {
