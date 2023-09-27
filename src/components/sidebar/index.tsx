@@ -4,6 +4,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
+import useSWR from 'swr';
+import fetchService from '@/services/fetch-service';
+import { useAtom } from 'jotai';
+import { canvasRecordAtom } from '@/state/canvas';
 
 interface Props {
   username: string;
@@ -13,6 +17,20 @@ interface Props {
 
 export default function Sidebar(props: Props) {
   const router = useRouter();
+  const [, setCanvasRecord] = useAtom(canvasRecordAtom);
+
+  const { data, error, isLoading } = useSWR('/documents', (url) =>
+    fetchService
+      .GET('/documents', {
+        params: {
+          query: {
+            limit: 10,
+            offset: 0,
+          },
+        },
+      })
+      .then((res) => res.data)
+  );
 
   return (
     <div className="h-screen bg-background w-[400px] p-8 flex flex-col">
@@ -28,7 +46,24 @@ export default function Sidebar(props: Props) {
           <Label>{props.email}</Label>
         </div>
       </div>
-      <div className="flex-1 my-6" />
+      <div className="flex-1 my-6">
+        {data?.records.map((record) => (
+          <div
+            key={record.id}
+            onClick={() =>
+              setCanvasRecord({
+                id: record.id,
+                title: record.title,
+                description: record.description ?? '',
+                paths: record.paths ?? {},
+              })
+            }
+          >
+            <Label>{record.title}</Label>
+            <img src={record.image ?? ''} alt={record.title} />
+          </div>
+        ))}
+      </div>
       <div>
         <Button
           className="w-full"

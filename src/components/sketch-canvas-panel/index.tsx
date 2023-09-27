@@ -6,24 +6,42 @@ import { Slider } from '@/components/ui/slider';
 import { useTheme } from 'next-themes';
 import { useEffect, useRef, useState } from 'react';
 import { ReactSketchCanvasRef } from 'react-sketch-canvas';
-import { paths } from './object';
 import dynamic from 'next/dynamic';
+import { canvasRecordAtom } from '@/state/canvas';
+import { useAtom } from 'jotai';
 
 const SketchCanvas = dynamic(() => import('./sketch-canvas'), {
   ssr: false,
 });
 
-export default function SketchCanvasPanel() {
+interface Props {
+  onSave?: (data: { svg: string; image: string; paths: any }) => void;
+}
+
+export default function SketchCanvasPanel(props: Props) {
   const canvasRef = useRef<ReactSketchCanvasRef>(null);
   const [strokeWidth, setStrokeWidth] = useState(2);
   const [isEraseMode, setIsEraseMode] = useState(false);
 
   const { theme, setTheme } = useTheme();
 
+  const [canvasRecord] = useAtom(canvasRecordAtom);
+
+  const loadCanvas = async () => {
+    const paths = canvasRecord.paths;
+    if (paths) {
+      await canvasRef.current?.resetCanvas();
+      await canvasRef.current?.loadPaths(Object.values(paths));
+    }
+  };
+
   useEffect(() => {
+    if (canvasRecord.id) {
+      loadCanvas();
+    }
     // setTheme('light');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [canvasRecord.id]);
 
   return (
     <div className="relative w-full h-full dark:bg-[#1e1d1d]">
@@ -81,6 +99,20 @@ export default function SketchCanvasPanel() {
           </Button>
           <Button
             onClick={async () => {
+              if (!props.onSave) {
+                return;
+              }
+
+              const paths = (await canvasRef.current?.exportPaths()) ?? {};
+              const svg = (await canvasRef.current?.exportSvg()) ?? '';
+              const image = (await canvasRef.current?.exportImage('png')) ?? '';
+              props.onSave({ paths, svg, image });
+            }}
+          >
+            Save
+          </Button>
+          <Button
+            onClick={async () => {
               const data = await canvasRef.current?.exportSvg();
               console.log(data);
             }}
@@ -98,7 +130,7 @@ export default function SketchCanvasPanel() {
           <Button
             onClick={() => {
               canvasRef.current?.clearCanvas();
-              canvasRef.current?.loadPaths(paths);
+              // canvasRef.current?.loadPaths();
             }}
           >
             Load

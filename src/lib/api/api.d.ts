@@ -32,14 +32,17 @@ export interface paths {
   "/auth/access-token/verify": {
     post: operations["AuthController_verifyAccessToken"];
   };
-  "/users": {
-    get: operations["UserController_findAllUsers"];
-  };
   "/generator/predict": {
     get: operations["GeneratorController_predict"];
   };
   "/documents": {
-    get: operations["DocumentController_predict"];
+    get: operations["DocumentController_getList"];
+    post: operations["DocumentController_saveDocument"];
+  };
+  "/documents/{id}": {
+    get: operations["DocumentController_getOne"];
+    delete: operations["DocumentController_deleteDocument"];
+    patch: operations["DocumentController_updateDocument"];
   };
 }
 
@@ -80,6 +83,30 @@ export interface components {
     };
     PredictResponse: {
       urls: string[];
+    };
+    DocumentDto: {
+      id: string;
+      title: string;
+      description: string | null;
+      svg: string | null;
+      image: string | null;
+      paths: Record<string, unknown> | null;
+    };
+    GetDocumentListResponse: {
+      records: components["schemas"]["DocumentDto"][];
+    };
+    GetDocumentResponse: {
+      record: components["schemas"]["DocumentDto"];
+    };
+    SaveDocumentDto: {
+      title: string;
+      description: string | null;
+      svg: string | null;
+      image: string | null;
+      paths: Record<string, unknown> | null;
+    };
+    SaveDocumentResponse: {
+      id: string;
     };
   };
   responses: never;
@@ -261,13 +288,6 @@ export interface operations {
       };
     };
   };
-  UserController_findAllUsers: {
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
   GeneratorController_predict: {
     parameters: {
       query: {
@@ -294,7 +314,82 @@ export interface operations {
       };
     };
   };
-  DocumentController_predict: {
+  DocumentController_getList: {
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetDocumentListResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  DocumentController_saveDocument: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["SaveDocumentDto"];
+      };
+    };
+    responses: {
+      201: {
+        content: {
+          "application/json": components["schemas"]["SaveDocumentResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  DocumentController_getOne: {
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetDocumentResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  DocumentController_deleteDocument: {
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  DocumentController_updateDocument: {
     responses: {
       200: {
         content: never;
