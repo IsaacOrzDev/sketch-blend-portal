@@ -32,10 +32,11 @@ export const GET = async (request: NextRequest) => {
     response.cookies.set(COOKIES_CONFIG.ACCESS_TOKEN_KEY, accessToken, {
       expires: new Date(expiresAtUtc),
       httpOnly: true,
-      sameSite: 'lax',
-      domain: process.env.NEXT_PUBLIC_API_BASE_URL,
+      sameSite: 'none',
+      // domain: process.env.NEXT_PUBLIC_API_BASE_URL,
       path: '/',
-      secure: redirectUrl.startsWith('https://'),
+      // secure: redirectUrl.startsWith('https://'),
+      secure: true,
     });
     return response;
   } catch (err: any) {
