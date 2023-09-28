@@ -33,9 +33,9 @@ export const GET = async (request: NextRequest) => {
       expires: new Date(expiresAtUtc),
       httpOnly: true,
       sameSite: 'lax',
+      domain: process.env.NEXT_PUBLIC_API_BASE_URL,
       path: '/',
-      // secure: redirectUrl.startsWith('https://'),
-      secure: false,
+      secure: redirectUrl.startsWith('https://'),
     });
     return response;
   } catch (err: any) {
