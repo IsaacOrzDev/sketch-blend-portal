@@ -2,6 +2,7 @@
 
 import SketchCanvasPanel from '@/components/sketch-canvas-panel';
 import fetchService from '@/services/fetch-service';
+import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 
 interface Props {
@@ -9,17 +10,62 @@ interface Props {
 }
 
 export default function CanvasContent(props: Props) {
-  const { data, isLoading } = useSWR(
+  const router = useRouter();
+
+  const { data, isLoading, mutate } = useSWR(
     props.params?.id ? '/documents/{id}' : null,
     (url) =>
       fetchService
         .GET(url, {
           params: {
-            path: { id: props.params?.id },
+            path: { id: props.params?.id! },
           },
         })
         .then((res) => res.data)
   );
+
+  const save = async (data: { paths: any; svg: string; image: string }) => {
+    if (!props.params?.id) {
+      return;
+    }
+
+    try {
+      await fetchService.PATCH('/documents/{id}', {
+        body: {
+          id: props.params.id,
+          data: {
+            title: 'test',
+            description: null,
+            paths: data.paths,
+            svg: data.svg,
+            image: data.image,
+          },
+        },
+      });
+      mutate();
+      alert('success');
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const deleteRecord = async (id?: string) => {
+    if (!id) {
+      return;
+    }
+
+    try {
+      await fetchService.DELETE('/documents/{id}', {
+        params: {
+          path: { id: id },
+        },
+      });
+      router.replace('/portal');
+      alert('success');
+    } catch (err) {
+      alert(err);
+    }
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -31,7 +77,11 @@ export default function CanvasContent(props: Props) {
 
   return (
     <div className="w-full h-screen">
-      <SketchCanvasPanel record={data.record} />
+      <SketchCanvasPanel
+        record={data.record}
+        onSave={save}
+        onDelete={deleteRecord}
+      />
     </div>
   );
 }

@@ -84,7 +84,7 @@ export interface components {
     PredictResponse: {
       urls: string[];
     };
-    DocumentDto: {
+    DocumentRecord: {
       id: string;
       title: string;
       description: string | null;
@@ -93,9 +93,9 @@ export interface components {
       paths: Record<string, unknown> | null;
     };
     GetDocumentListResponse: {
-      records: components["schemas"]["DocumentDto"][];
+      records: components["schemas"]["DocumentRecord"][];
     };
-    DocumentDetailDto: {
+    DocumentDetailRecord: {
       id: string;
       title: string;
       description: string | null;
@@ -104,7 +104,7 @@ export interface components {
       paths: Record<string, unknown> | null;
     };
     GetDocumentResponse: {
-      record: components["schemas"]["DocumentDetailDto"];
+      record: components["schemas"]["DocumentDetailRecord"];
     };
     SaveDocumentDto: {
       title: string;
@@ -115,6 +115,10 @@ export interface components {
     };
     SaveDocumentResponse: {
       id: string;
+    };
+    UpdateDocumentDto: {
+      id: string;
+      data: components["schemas"]["SaveDocumentDto"];
     };
   };
   responses: never;
@@ -372,7 +376,7 @@ export interface operations {
   DocumentController_getOne: {
     parameters: {
       path: {
-        id: unknown;
+        id: string;
       };
     };
     responses: {
@@ -396,6 +400,11 @@ export interface operations {
     };
   };
   DocumentController_deleteDocument: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
     responses: {
       200: {
         content: never;
@@ -403,6 +412,11 @@ export interface operations {
     };
   };
   DocumentController_updateDocument: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateDocumentDto"];
+      };
+    };
     responses: {
       200: {
         content: never;

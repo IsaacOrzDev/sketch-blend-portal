@@ -14,6 +14,7 @@ const SketchCanvas = dynamic(() => import('./sketch-canvas'), {
 
 interface Props {
   onSave?: (data: { svg: string; image: string; paths: any }) => void;
+  onDelete?: (id: string) => void;
   record?: {
     id: string;
     paths: any;
@@ -127,17 +128,22 @@ export default function SketchCanvasPanel(props: Props) {
             onClick={async () => {
               const data = await canvasRef.current?.exportImage('png');
               console.log(data);
+              const a = document.createElement('a'); //Create <a>
+              a.href = data ?? '';
+              a.download = 'Image.png'; //File name Here
+              a.click(); //Downloaded file
             }}
           >
             Export Image
           </Button>
           <Button
             onClick={() => {
-              canvasRef.current?.clearCanvas();
-              // canvasRef.current?.loadPaths();
+              if (props.onDelete && props.record?.id) {
+                props.onDelete(props.record.id);
+              }
             }}
           >
-            Load
+            Delete
           </Button>
         </div>
         <ModeToggle />
