@@ -49,6 +49,32 @@ export default function CanvasContent(props: Props) {
     }
   };
 
+  const generate = async () => {
+    if (!props.params?.id) {
+      return;
+    }
+
+    try {
+      let url = '';
+      const data = await fetchService
+        .POST('/generator/predict/{documentId}/scribble', {
+          params: {
+            path: { documentId: props.params.id },
+          },
+          body: {
+            prompt: 'test',
+          },
+        })
+        .then((res) => res.data);
+
+      url = (data as any).url;
+
+      router.push(url);
+    } catch (err) {
+      alert(err);
+    }
+  };
+
   const deleteRecord = async (id?: string) => {
     if (!id) {
       return;
@@ -81,6 +107,7 @@ export default function CanvasContent(props: Props) {
         record={data.record}
         onSave={save}
         onDelete={deleteRecord}
+        onGenerate={generate}
       />
     </div>
   );

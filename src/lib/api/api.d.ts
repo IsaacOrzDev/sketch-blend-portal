@@ -35,6 +35,12 @@ export interface paths {
   "/generator/predict": {
     get: operations["GeneratorController_predict"];
   };
+  "/generator/predict/{documentId}/scribble": {
+    post: operations["GeneratorController_scribblePredict"];
+  };
+  "/generator/predict/{documentId}/caption": {
+    post: operations["GeneratorController_CaptionPredict"];
+  };
   "/documents": {
     get: operations["DocumentController_getList"];
     post: operations["DocumentController_saveDocument"];
@@ -43,6 +49,9 @@ export interface paths {
     get: operations["DocumentController_getOne"];
     delete: operations["DocumentController_deleteDocument"];
     patch: operations["DocumentController_updateDocument"];
+  };
+  "/documents/{id}/image": {
+    get: operations["DocumentController_getImage"];
   };
 }
 
@@ -75,6 +84,9 @@ export interface components {
     VerifyTokenDto: {
       token: string;
     };
+    GenerateTokenDto: {
+      userId: number;
+    };
     VerifyTokenResponse: {
       userId: string;
       username: string;
@@ -83,6 +95,9 @@ export interface components {
     };
     PredictResponse: {
       urls: string[];
+    };
+    ScribblePredictBody: {
+      prompt: string;
     };
     DocumentRecord: {
       id: string;
@@ -106,15 +121,15 @@ export interface components {
     GetDocumentResponse: {
       record: components["schemas"]["DocumentDetailRecord"];
     };
+    SaveDocumentResponse: {
+      id: string;
+    };
     SaveDocumentDto: {
       title: string;
       description: string | null;
       svg: string | null;
       image: string | null;
       paths: Record<string, unknown> | null;
-    };
-    SaveDocumentResponse: {
-      id: string;
     };
     UpdateDocumentDto: {
       id: string;
@@ -268,6 +283,11 @@ export interface operations {
     };
   };
   AuthController_generateAccessToken: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["GenerateTokenDto"];
+      };
+    };
     responses: {
       201: {
         content: never;
@@ -323,6 +343,35 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["ErrorResponse"];
         };
+      };
+    };
+  };
+  GeneratorController_scribblePredict: {
+    parameters: {
+      path: {
+        documentId: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ScribblePredictBody"];
+      };
+    };
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  GeneratorController_CaptionPredict: {
+    parameters: {
+      path: {
+        documentId: string;
+      };
+    };
+    responses: {
+      201: {
+        content: never;
       };
     };
   };
@@ -420,6 +469,32 @@ export interface operations {
     responses: {
       200: {
         content: never;
+      };
+    };
+  };
+  DocumentController_getImage: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      201: {
+        content: {
+          "application/json": components["schemas"]["SaveDocumentResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
       };
     };
   };

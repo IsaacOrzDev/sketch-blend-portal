@@ -15,6 +15,7 @@ const SketchCanvas = dynamic(() => import('./sketch-canvas'), {
 interface Props {
   onSave?: (data: { svg: string; image: string; paths: any }) => void;
   onDelete?: (id: string) => void;
+  onGenerate?: () => void;
   record?: {
     id: string;
     paths: any;
@@ -145,6 +146,9 @@ export default function SketchCanvasPanel(props: Props) {
           >
             Delete
           </Button>
+          {props.onGenerate && (
+            <Button onClick={props.onGenerate}>Generate</Button>
+          )}
         </div>
         <ModeToggle />
       </div>
