@@ -34,7 +34,8 @@ export const GET = async (request: NextRequest) => {
       httpOnly: true,
       sameSite: 'lax',
       path: '/',
-      secure: redirectUrl.startsWith('https://'),
+      // secure: redirectUrl.startsWith('https://'),
+      secure: false,
     });
     return response;
   } catch (err: any) {
