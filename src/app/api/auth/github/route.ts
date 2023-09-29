@@ -33,7 +33,10 @@ export const GET = async (request: NextRequest) => {
       expires: new Date(expiresAtUtc),
       httpOnly: true,
       sameSite: 'lax',
-      // domain: process.env.NEXT_PUBLIC_API_BASE_URL,
+      domain: (process.env.NEXT_PUBLIC_API_BASE_URL ?? '')
+        .split('.')
+        .slice(1)
+        .join('.'),
       path: '/',
       // secure: redirectUrl.startsWith('https://'),
       secure: false,
