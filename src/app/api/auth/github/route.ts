@@ -33,13 +33,15 @@ export const GET = async (request: NextRequest) => {
       expires: new Date(expiresAtUtc),
       httpOnly: true,
       sameSite: 'lax',
-      domain: (process.env.NEXT_PUBLIC_API_BASE_URL ?? '')
-        .split('.')
-        .slice(1)
-        .join('.'),
+      domain:
+        process.env.NODE_ENV === 'production'
+          ? (process.env.NEXT_PUBLIC_API_BASE_URL ?? '')
+              .split('.')
+              .slice(1)
+              .join('.')
+          : undefined,
       path: '/',
-      // secure: redirectUrl.startsWith('https://'),
-      secure: false,
+      secure: redirectUrl.startsWith('https://'),
     });
     return response;
   } catch (err: any) {
