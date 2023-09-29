@@ -1,4 +1,5 @@
 import COOKIES_CONFIG from '@/config/cookie-config';
+import { setAccessTokenCookieAndRedirect } from '@/lib/auth-utils';
 import fetchService from '@/services/fetch-service';
 import { NextRequest, NextResponse } from 'next/server';
 import qs from 'qs';
@@ -26,24 +27,11 @@ export const GET = async (request: NextRequest) => {
 
     const { accessToken, expiresAtUtc, isFirstTime } = apiResult.data;
 
-    const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/portal`;
-    const response = NextResponse.redirect(redirectUrl);
-
-    response.cookies.set(COOKIES_CONFIG.ACCESS_TOKEN_KEY, accessToken, {
-      expires: new Date(expiresAtUtc),
-      httpOnly: true,
-      sameSite: 'lax',
-      domain:
-        process.env.NODE_ENV === 'production'
-          ? (process.env.NEXT_PUBLIC_API_BASE_URL ?? '')
-              .split('.')
-              .slice(1)
-              .join('.')
-          : undefined,
-      path: '/',
-      secure: redirectUrl.startsWith('https://'),
+    return setAccessTokenCookieAndRedirect({
+      accessToken,
+      expiresAt: expiresAtUtc,
+      isFirstTime,
     });
-    return response;
   } catch (err: any) {
     console.log(err);
     if (err instanceof z.ZodError) {
