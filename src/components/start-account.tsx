@@ -34,28 +34,32 @@ export function StartAccount() {
       return;
     }
 
-    const tokenResult = await fetchService.POST(
-      '/auth/password-less/generate',
-      {
-        body: { email, username },
-      }
-    );
+    // const tokenResult = await fetchService.POST(
+    //   '/auth/password-less/generate',
+    //   {
+    //     body: { email, username },
+    //   }
+    // );
 
-    if (tokenResult.error) {
-      alert(tokenResult.error.message);
-      return;
-    }
-
-    router.push(
-      '/api/auth/password-less?token=' + (tokenResult.data as any).token
-    );
-
-    // const result = await fetchService.POST('/auth/password-less/send-email', {
-    //   body: { email },
-    // });
-    // if (!result.error) {
-    //   setSent(true);
+    // if (tokenResult.error) {
+    //   alert(tokenResult.error.message);
+    //   return;
     // }
+
+    // router.push(
+    //   '/api/auth/password-less?token=' + (tokenResult.data as any).token
+    // );
+
+    const result = await fetchService.POST('/auth/password-less/send-email', {
+      body: {
+        email,
+        username,
+      },
+    });
+    if (!result.error) {
+      setSent(true);
+      alert('success');
+    }
   };
 
   const googleLogin = useGoogleLogin({

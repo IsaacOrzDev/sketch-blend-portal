@@ -76,6 +76,7 @@ export interface components {
     };
     SendEmailForPasswordLessDto: {
       email: string;
+      username: string | null;
     };
     AddOneTimeTokenDto: {
       username: string | null;
