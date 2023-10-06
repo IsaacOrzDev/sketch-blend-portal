@@ -22,6 +22,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <GoogleProvider>{children}</GoogleProvider>
         </ThemeProvider>
+        <div className="paperOverlay" />
       </body>
     </html>
   );

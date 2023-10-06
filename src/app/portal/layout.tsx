@@ -29,10 +29,7 @@ export default async function PortalLayout({
 
   return (
     <ProfileProvider {...profile.data}>
-      <div className="flex w-full">
-        <Sidebar {...profile.data} />
-        {children}
-      </div>
+      <div className="flex w-full">{children}</div>
     </ProfileProvider>
   );
 }

@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 import fetchService from '@/services/fetch-service';
+import { useProfileContext } from '../profile-provider';
 
 interface Props {
   username: string;
@@ -13,8 +14,9 @@ interface Props {
   imageUrl?: string | null;
 }
 
-export default function Sidebar(props: Props) {
+export default function Sidebar() {
   const router = useRouter();
+  const profile = useProfileContext();
 
   const { data, error, isLoading } = useSWR('/documents', (url) =>
     fetchService
@@ -33,14 +35,14 @@ export default function Sidebar(props: Props) {
     <div className="h-screen bg-background w-[400px] p-8 flex flex-col">
       <div className="flex items-center">
         <Avatar className="w-14 h-14 mr-4">
-          {props.imageUrl && <AvatarImage src={props.imageUrl} />}
+          {profile.imageUrl && <AvatarImage src={profile.imageUrl} />}
           <AvatarFallback>
-            {props.username.slice(0, 2).toUpperCase()}
+            {profile.username.slice(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
         <div className="flex flex-col gap-2">
-          <Label className="font-bold text-lg">{props.username}</Label>
-          <Label>{props.email}</Label>
+          <Label className="font-bold text-lg">{profile.username}</Label>
+          <Label>{profile.email}</Label>
         </div>
       </div>
       <div className="flex-1 my-6">
