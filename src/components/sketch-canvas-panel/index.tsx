@@ -7,6 +7,7 @@ import { useTheme } from 'next-themes';
 import { useEffect, useRef, useState } from 'react';
 import { ReactSketchCanvasRef } from 'react-sketch-canvas';
 import dynamic from 'next/dynamic';
+import { Undo, Redo, Eraser, Pen, Save } from 'lucide-react';
 
 const SketchCanvas = dynamic(() => import('./sketch-canvas'), {
   ssr: false,
@@ -70,31 +71,31 @@ export default function SketchCanvasPanel(props: Props) {
               canvasRef.current?.undo();
             }}
           >
-            Undo
+            <Undo />
           </Button>
           <Button
             onClick={() => {
               canvasRef.current?.redo();
             }}
           >
-            Redo
+            <Redo />
           </Button>
-          <Button
+          {/* <Button
             onClick={() => {
               canvasRef.current?.clearCanvas();
             }}
           >
             Clear
-          </Button>
+          </Button> */}
           <Button
             onClick={() => {
               setIsEraseMode(!isEraseMode);
               canvasRef.current?.eraseMode(!isEraseMode);
             }}
           >
-            {isEraseMode ? 'Erase' : 'Pen'}
+            {isEraseMode ? <Pen /> : <Eraser />}
           </Button>
-          <Button
+          {/* <Button
             onClick={async () => {
               const data = await canvasRef.current?.exportPaths();
               // const data = await canvasRef.current?.exportSvg();
@@ -102,7 +103,7 @@ export default function SketchCanvasPanel(props: Props) {
             }}
           >
             Export Paths
-          </Button>
+          </Button> */}
           <Button
             onClick={async () => {
               if (!props.onSave) {
@@ -115,17 +116,17 @@ export default function SketchCanvasPanel(props: Props) {
               props.onSave({ paths, svg, image });
             }}
           >
-            Save
+            <Save />
           </Button>
-          <Button
+          {/* <Button
             onClick={async () => {
               const data = await canvasRef.current?.exportSvg();
               console.log(data);
             }}
           >
             Export Svg
-          </Button>
-          <Button
+          </Button> */}
+          {/* <Button
             onClick={async () => {
               const data = await canvasRef.current?.exportImage('png');
               console.log(data);
@@ -136,8 +137,8 @@ export default function SketchCanvasPanel(props: Props) {
             }}
           >
             Export Image
-          </Button>
-          <Button
+          </Button> */}
+          {/* <Button
             onClick={() => {
               if (props.onDelete && props.record?.id) {
                 props.onDelete(props.record.id);
@@ -145,7 +146,7 @@ export default function SketchCanvasPanel(props: Props) {
             }}
           >
             Delete
-          </Button>
+          </Button> */}
           {props.onGenerate && (
             <Button onClick={props.onGenerate}>Generate</Button>
           )}
