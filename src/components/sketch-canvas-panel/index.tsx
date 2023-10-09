@@ -8,15 +8,24 @@ import { useEffect, useRef, useState } from 'react';
 import { ReactSketchCanvasRef } from 'react-sketch-canvas';
 import dynamic from 'next/dynamic';
 import { Undo, Redo, Eraser, Pen, Save } from 'lucide-react';
+import GenerateSheet from './generate-sheet';
+import SaveSheet from './save-sheet';
 
 const SketchCanvas = dynamic(() => import('./sketch-canvas'), {
   ssr: false,
 });
 
 interface Props {
-  onSave?: (data: { svg: string; image: string; paths: any }) => void;
+  isNew?: boolean;
+  onSave?: (data: {
+    svg: string;
+    image: string;
+    paths: any;
+    title?: string;
+    description?: string;
+  }) => void;
   onDelete?: (id: string) => void;
-  onGenerate?: () => void;
+  onGenerate?: (data: { prompt: string }) => void;
   record?: {
     id: string;
     paths: any;
@@ -40,6 +49,58 @@ export default function SketchCanvasPanel(props: Props) {
       await canvasRef.current?.resetCanvas();
       await canvasRef.current?.loadPaths(Object.values(paths));
     }
+  };
+
+  const saveCanvas = async () => {
+    if (!props.onSave) {
+      return;
+    }
+
+    const paths = (await canvasRef.current?.exportPaths()) ?? {};
+    const svg = (await canvasRef.current?.exportSvg()) ?? '';
+    const image = (await canvasRef.current?.exportImage('png')) ?? '';
+    props.onSave({ paths, svg, image });
+  };
+
+  const saveNewCanvas = async (title: string, description?: string) => {
+    if (!props.onSave) {
+      return;
+    }
+
+    const paths = (await canvasRef.current?.exportPaths()) ?? {};
+    const svg = (await canvasRef.current?.exportSvg()) ?? '';
+    const image = (await canvasRef.current?.exportImage('png')) ?? '';
+    props.onSave({ paths, svg, image, title, description });
+  };
+
+  const deleteCanvas = async () => {
+    if (props.onDelete && props.record?.id) {
+      props.onDelete(props.record.id);
+    }
+  };
+
+  const exportImage = async () => {
+    const data = await canvasRef.current?.exportImage('png');
+    console.log(data);
+    const a = document.createElement('a'); //Create <a>
+    a.href = data ?? '';
+    a.download = 'Image.png'; //File name Here
+    a.click(); //Downloaded file
+  };
+
+  const exportSvg = async () => {
+    const data = await canvasRef.current?.exportSvg();
+    console.log(data);
+  };
+
+  const exportPaths = async () => {
+    const data = await canvasRef.current?.exportPaths();
+    // const data = await canvasRef.current?.exportSvg();
+    console.log(data);
+  };
+
+  const clearCanvas = async () => {
+    canvasRef.current?.clearCanvas();
   };
 
   useEffect(() => {
@@ -80,13 +141,6 @@ export default function SketchCanvasPanel(props: Props) {
           >
             <Redo />
           </Button>
-          {/* <Button
-            onClick={() => {
-              canvasRef.current?.clearCanvas();
-            }}
-          >
-            Clear
-          </Button> */}
           <Button
             onClick={() => {
               setIsEraseMode(!isEraseMode);
@@ -95,63 +149,15 @@ export default function SketchCanvasPanel(props: Props) {
           >
             {isEraseMode ? <Pen /> : <Eraser />}
           </Button>
-          {/* <Button
-            onClick={async () => {
-              const data = await canvasRef.current?.exportPaths();
-              // const data = await canvasRef.current?.exportSvg();
-              console.log(data);
-            }}
-          >
-            Export Paths
-          </Button> */}
-          <Button
-            onClick={async () => {
-              if (!props.onSave) {
-                return;
-              }
-
-              const paths = (await canvasRef.current?.exportPaths()) ?? {};
-              const svg = (await canvasRef.current?.exportSvg()) ?? '';
-              const image = (await canvasRef.current?.exportImage('png')) ?? '';
-              props.onSave({ paths, svg, image });
-            }}
-          >
-            <Save />
-          </Button>
-          {/* <Button
-            onClick={async () => {
-              const data = await canvasRef.current?.exportSvg();
-              console.log(data);
-            }}
-          >
-            Export Svg
-          </Button> */}
-          {/* <Button
-            onClick={async () => {
-              const data = await canvasRef.current?.exportImage('png');
-              console.log(data);
-              const a = document.createElement('a'); //Create <a>
-              a.href = data ?? '';
-              a.download = 'Image.png'; //File name Here
-              a.click(); //Downloaded file
-            }}
-          >
-            Export Image
-          </Button> */}
-          {/* <Button
-            onClick={() => {
-              if (props.onDelete && props.record?.id) {
-                props.onDelete(props.record.id);
-              }
-            }}
-          >
-            Delete
-          </Button> */}
-          {props.onGenerate && (
-            <Button onClick={props.onGenerate}>Generate</Button>
+          {props.isNew && <SaveSheet onSave={saveNewCanvas} />}
+          {!props.isNew && (
+            <Button onClick={saveCanvas}>
+              <Save />
+            </Button>
           )}
         </div>
-        <ModeToggle />
+        {props.onGenerate && <GenerateSheet onSubmit={props.onGenerate} />}
+        {/* <ModeToggle /> */}
       </div>
       <div className="absolute left-2 bottom-[50%] h-[300px] transform translate-y-[50%]">
         <Slider

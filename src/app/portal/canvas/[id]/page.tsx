@@ -49,25 +49,25 @@ export default function CanvasContent(props: Props) {
     }
   };
 
-  const generate = async () => {
+  const generate = async (data: { prompt: string }) => {
     if (!props.params?.id) {
       return;
     }
 
     try {
       let url = '';
-      const data = await fetchService
+      const response = await fetchService
         .POST('/generator/predict/{documentId}/scribble', {
           params: {
             path: { documentId: props.params.id },
           },
           body: {
-            prompt: 'test',
+            prompt: data.prompt,
           },
         })
         .then((res) => res.data);
 
-      url = (data as any).url;
+      url = (response as any).url;
 
       router.push(url);
     } catch (err) {

@@ -9,12 +9,18 @@ interface Props {}
 export default function NewCanvasPage(props: Props) {
   const router = useRouter();
 
-  const save = async (data: { paths: any; svg: string; image: string }) => {
+  const save = async (data: {
+    paths: any;
+    svg: string;
+    image: string;
+    title?: string;
+    description?: string;
+  }) => {
     try {
       const record = await fetchService.POST('/documents', {
         body: {
-          title: 'test',
-          description: 'test',
+          title: data.title ?? '',
+          description: data.description ?? '',
           paths: data.paths,
           svg: data.svg,
           image: data.image,
@@ -29,7 +35,7 @@ export default function NewCanvasPage(props: Props) {
 
   return (
     <div className="w-full h-screen">
-      <SketchCanvasPanel onSave={save} />
+      <SketchCanvasPanel onSave={save} isNew />
     </div>
   );
 }
