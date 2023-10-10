@@ -6,7 +6,11 @@ export const setAccessTokenCookieAndRedirect = (params: {
   expiresAt: string;
   isFirstTime: boolean;
 }) => {
-  const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/portal`;
+  let redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/portal`;
+  if (params.isFirstTime) {
+    // redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/portal/onboarding`;
+    redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/portal?isFirstTime=${params.isFirstTime}`;
+  }
   const response = NextResponse.redirect(redirectUrl);
 
   response.cookies.set(COOKIES_CONFIG.ACCESS_TOKEN_KEY, params.accessToken, {

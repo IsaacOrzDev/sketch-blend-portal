@@ -31,15 +31,13 @@ export default function CanvasList() {
         onClick={() => router.push(`/portal/canvas/new`)}
       />
       {data?.records.map((record, i) => (
-        <>
-          <CanvasCard
-            key={i}
-            imageUrl={record.image ?? ''}
-            title={record.title}
-            description={record.description}
-            onClick={() => router.push(`/portal/canvas/${record.id}`)}
-          />
-        </>
+        <CanvasCard
+          key={i}
+          imageUrl={record.image ?? ''}
+          title={record.title}
+          description={record.description}
+          onClick={() => router.push(`/portal/canvas/${record.id}`)}
+        />
       ))}
     </div>
   );
