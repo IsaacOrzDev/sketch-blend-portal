@@ -17,20 +17,30 @@ import qs from 'qs';
 import { useGoogleLogin } from '@react-oauth/google';
 import fetchService from '@/services/fetch-service';
 import { useState } from 'react';
+import { toast } from './ui/use-toast';
+import { Tabs, TabsList, TabsTrigger } from './ui/tabs';
 
-export function StartAccount() {
+interface Props {
+  isLogin?: boolean;
+}
+
+export function StartAccount(props: Props) {
   const router = useRouter();
-  const search = useSearchParams();
+  // const search = useSearchParams();
 
-  const isLogin = search.get('type') === 'login';
+  // const isLogin = search.get('type') === 'login';
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
+  const [type, setType] = useState(props.isLogin ? 'login' : 'register');
 
   const onProcessPasswordLessLogin = async () => {
     if (!username || !email) {
-      alert('Please enter your username and email');
+      toast({
+        variant: 'destructive',
+        title: 'Please enter your username and email.',
+      });
       return;
     }
 
@@ -58,7 +68,9 @@ export function StartAccount() {
     });
     if (!result.error) {
       setSent(true);
-      alert('success');
+      toast({
+        title: 'Email sent',
+      });
     }
   };
 
@@ -78,8 +90,22 @@ export function StartAccount() {
     router.push(`https://github.com/login/oauth/authorize?${params}`);
   };
 
+  const isLogin = type === 'login';
+
   return (
     <>
+      <Tabs
+        defaultValue={type}
+        onValueChange={(value) => {
+          setType(value);
+        }}
+        className="w-full mb-4"
+      >
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="login">Login</TabsTrigger>
+          <TabsTrigger value="register">Register</TabsTrigger>
+        </TabsList>
+      </Tabs>
       <Card className="mb-4">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">
@@ -117,7 +143,7 @@ export function StartAccount() {
             />
           </div>
           <Button className="w-full" onClick={onProcessPasswordLessLogin}>
-            {isLogin ? 'Continue' : 'Register Account'}
+            {props.isLogin ? 'Continue' : 'Register Account'}
           </Button>
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -143,7 +169,7 @@ export function StartAccount() {
           </div>
         </CardFooter>
       </Card>
-      {isLogin ? (
+      {/* {isLogin ? (
         <Label>
           Do not yout a account yet?{' '}
           <a href="/?type=register">Please Register</a>
@@ -152,7 +178,7 @@ export function StartAccount() {
         <Label>
           Already have a account ?<a href="/?type=login">Please login</a>
         </Label>
-      )}
+      )} */}
     </>
   );
 }

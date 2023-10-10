@@ -1,6 +1,7 @@
 'use client';
 
 import SketchCanvasPanel from '@/components/sketch-canvas-panel';
+import { toast } from '@/components/ui/use-toast';
 import fetchService from '@/services/fetch-service';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
@@ -43,7 +44,9 @@ export default function CanvasContent(props: Props) {
         },
       });
       mutate();
-      alert('success');
+      toast({
+        title: 'Saved',
+      });
     } catch (err) {
       alert(err);
     }
@@ -87,7 +90,9 @@ export default function CanvasContent(props: Props) {
         },
       });
       router.replace('/portal');
-      alert('success');
+      toast({
+        title: 'Deleted',
+      });
     } catch (err) {
       alert(err);
     }

@@ -2,7 +2,7 @@ import CanvasList from './canvas-list';
 import { Label } from '@/components/ui/label';
 import ProfileInfo from './profile-info';
 
-export default function ClientComponent() {
+export default function PortalPage() {
   return (
     <>
       <div className="w-full h-screen flex flex-col items-center overflow-y-auto">

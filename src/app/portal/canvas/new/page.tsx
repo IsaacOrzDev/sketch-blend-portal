@@ -1,6 +1,7 @@
 'use client';
 
 import SketchCanvasPanel from '@/components/sketch-canvas-panel';
+import { toast } from '@/components/ui/use-toast';
 import fetchService from '@/services/fetch-service';
 import { useRouter } from 'next/navigation';
 
@@ -27,7 +28,9 @@ export default function NewCanvasPage(props: Props) {
         },
       });
       router.replace(`/portal/canvas/${record.data?.id}`);
-      alert('success');
+      toast({
+        title: 'Saved',
+      });
     } catch (err) {
       alert(err);
     }
