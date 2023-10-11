@@ -5,12 +5,16 @@ import { toast } from '@/components/ui/use-toast';
 import fetchService from '@/services/fetch-service';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
+import GenerationResultDialog from './generation-result-dialog';
+import { useState } from 'react';
 
 interface Props {
   params?: { id: string };
 }
 
 export default function CanvasContent(props: Props) {
+  const [generatedImage, setGeneratedImage] = useState<string>('');
+
   const router = useRouter();
 
   const { data, isLoading, mutate } = useSWR(
@@ -71,8 +75,8 @@ export default function CanvasContent(props: Props) {
         .then((res) => res.data);
 
       url = (response as any).url;
-
-      router.push(url);
+      setGeneratedImage(url);
+      // router.push(url);
     } catch (err) {
       alert(err);
     }
@@ -106,6 +110,8 @@ export default function CanvasContent(props: Props) {
     return <div>404</div>;
   }
 
+  console.log('generatedImage', generatedImage);
+
   return (
     <div className="w-full h-screen">
       <SketchCanvasPanel
@@ -113,6 +119,10 @@ export default function CanvasContent(props: Props) {
         onSave={save}
         onDelete={deleteRecord}
         onGenerate={generate}
+      />
+      <GenerationResultDialog
+        open={!!generatedImage}
+        generatedImage={generatedImage}
       />
     </div>
   );

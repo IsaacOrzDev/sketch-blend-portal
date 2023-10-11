@@ -1,5 +1,3 @@
-'use client';
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,9 +12,10 @@ import { useEffect, useState } from 'react';
 
 interface Props {
   open?: boolean;
+  generatedImage?: string;
 }
 
-export default function FirstTimeDialog(props: Props) {
+export default function GenerationResultDialog(props: Props) {
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
@@ -26,7 +25,7 @@ export default function FirstTimeDialog(props: Props) {
       setOpen(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props.open]);
 
   const confirm = () => {
     setOpen(false);
@@ -37,13 +36,11 @@ export default function FirstTimeDialog(props: Props) {
     <AlertDialog open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Welcome</AlertDialogTitle>
-          <AlertDialogDescription>
-            You can draw on the canvas and generate new image with AI.
-          </AlertDialogDescription>
+          <AlertDialogTitle>The generated image</AlertDialogTitle>
+          <img src={props.generatedImage} />
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction onClick={confirm}>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={confirm}>Share it</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
