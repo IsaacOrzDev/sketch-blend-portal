@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
       silent: true,
 
       org: 'isaac-9r',
-      project: 'demo-system-portal',
+      project: 'sketch-blend-portal',
     },
     {
       // For all available options, see:
