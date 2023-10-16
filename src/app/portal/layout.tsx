@@ -3,7 +3,6 @@ import { cookies } from 'next/headers';
 import COOKIES_CONFIG from '@/config/cookie-config';
 import fetchService from '@/services/fetch-service';
 import ProfileProvider from '@/components/profile-provider';
-import Sidebar from '@/components/sidebar';
 
 export const dynamic = 'force-dynamic';
 

@@ -18,7 +18,7 @@ export default function NewCanvasPage(props: Props) {
     description?: string;
   }) => {
     try {
-      const record = await fetchService.POST('/documents', {
+      const record = await fetchService.POST('/documents/create', {
         body: {
           title: data.title ?? '',
           description: data.description ?? '',

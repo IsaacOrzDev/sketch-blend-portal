@@ -8,9 +8,6 @@ export interface paths {
   "/": {
     get: operations["AppController_healthCheck"];
   };
-  "/test": {
-    get: operations["AppController_getTesting"];
-  };
   "/auth/google/authenticate": {
     post: operations["AuthController_authenticateGoogleUser"];
   };
@@ -20,14 +17,8 @@ export interface paths {
   "/auth/password-less/send-email": {
     post: operations["AuthController_sendEmailForPasswordLess"];
   };
-  "/auth/password-less/generate": {
-    post: operations["AuthController_generatePasswordLessToken"];
-  };
   "/auth/password-less/authenticate": {
     post: operations["AuthController_AuthenticatePasswordLessLogin"];
-  };
-  "/auth/access-token/generate": {
-    post: operations["AuthController_generateAccessToken"];
   };
   "/auth/access-token/verify": {
     post: operations["AuthController_verifyAccessToken"];
@@ -43,7 +34,6 @@ export interface paths {
   };
   "/documents": {
     get: operations["DocumentController_getList"];
-    post: operations["DocumentController_saveDocument"];
   };
   "/documents/{id}": {
     get: operations["DocumentController_getOne"];
@@ -52,6 +42,36 @@ export interface paths {
   };
   "/documents/{id}/image": {
     get: operations["DocumentController_getImage"];
+  };
+  "/documents/create": {
+    post: operations["DocumentController_saveDocument"];
+  };
+  "/posts": {
+    get: operations["PostController_getList"];
+  };
+  "/posts/create": {
+    post: operations["PostController_create"];
+  };
+  "/posts/{id}": {
+    delete: operations["PostController_delete"];
+  };
+  "/posts/{id}/like": {
+    post: operations["PostController_like"];
+  };
+  "/posts/{id}/unlike": {
+    post: operations["PostController_unlike"];
+  };
+  "/testing/access-token/generate": {
+    post: operations["TestingController_generateAccessToken"];
+  };
+  "/testing/auth/test": {
+    get: operations["TestingController_getTesting"];
+  };
+  "/testing/auth/password-less/generate": {
+    post: operations["TestingController_generatePasswordLessToken"];
+  };
+  "/testing/bucket/upload": {
+    post: operations["TestingController_uploadFile"];
   };
 }
 
@@ -78,15 +98,8 @@ export interface components {
       email: string;
       username: string | null;
     };
-    AddOneTimeTokenDto: {
-      username: string | null;
-      email: string;
-    };
     VerifyTokenDto: {
       token: string;
-    };
-    GenerateTokenDto: {
-      userId: number;
     };
     VerifyTokenResponse: {
       userId: string;
@@ -136,6 +149,43 @@ export interface components {
       id: string;
       data: components["schemas"]["SaveDocumentDto"];
     };
+    UserInfo: {
+      name: string;
+      imageUrl: string | null;
+    };
+    PostRecord: {
+      id: string;
+      prompt: string;
+      imageUrl: string;
+      sourceImageUrl: string;
+      userInfo: components["schemas"]["UserInfo"];
+    };
+    GetPostListResponse: {
+      records: components["schemas"]["PostRecord"][];
+    };
+    CreatePostDto: {
+      prompt: string;
+      documentId: string;
+      imageUrl: string;
+    };
+    CreatePostResponse: {
+      id: string;
+      prompt: string;
+      imageUrl: string;
+      sourceImageUrl: string;
+      userInfo: components["schemas"]["UserInfo"];
+    };
+    GenerateTokenDto: {
+      userId: number;
+    };
+    AddOneTimeTokenDto: {
+      username: string | null;
+      email: string;
+    };
+    BucketUploadDto: {
+      url: string;
+      fileName: string;
+    };
   };
   responses: never;
   parameters: never;
@@ -151,13 +201,6 @@ export type external = Record<string, never>;
 export interface operations {
 
   AppController_healthCheck: {
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  AppController_getTesting: {
     responses: {
       200: {
         content: never;
@@ -230,32 +273,6 @@ export interface operations {
       };
     };
   };
-  AuthController_generatePasswordLessToken: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["AddOneTimeTokenDto"];
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"];
-        };
-      };
-      /** @description Bad Request */
-      400: {
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Internal Server Error */
-      500: {
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-    };
-  };
   AuthController_AuthenticatePasswordLessLogin: {
     requestBody: {
       content: {
@@ -280,18 +297,6 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["ErrorResponse"];
         };
-      };
-    };
-  };
-  AuthController_generateAccessToken: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["GenerateTokenDto"];
-      };
-    };
-    responses: {
-      201: {
-        content: never;
       };
     };
   };
@@ -397,32 +402,6 @@ export interface operations {
       };
     };
   };
-  DocumentController_saveDocument: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["SaveDocumentDto"];
-      };
-    };
-    responses: {
-      201: {
-        content: {
-          "application/json": components["schemas"]["SaveDocumentResponse"];
-        };
-      };
-      /** @description Bad Request */
-      400: {
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-      /** @description Internal Server Error */
-      500: {
-        content: {
-          "application/json": components["schemas"]["ErrorResponse"];
-        };
-      };
-    };
-  };
   DocumentController_getOne: {
     parameters: {
       path: {
@@ -496,6 +475,206 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["ErrorResponse"];
         };
+      };
+    };
+  };
+  DocumentController_saveDocument: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["SaveDocumentDto"];
+      };
+    };
+    responses: {
+      201: {
+        content: {
+          "application/json": components["schemas"]["SaveDocumentResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  PostController_getList: {
+    parameters: {
+      query?: {
+        offset?: number;
+        limit?: number;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetPostListResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  PostController_create: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreatePostDto"];
+      };
+    };
+    responses: {
+      201: {
+        content: {
+          "application/json": components["schemas"]["CreatePostResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  PostController_delete: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  PostController_like: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  PostController_unlike: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  TestingController_generateAccessToken: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["GenerateTokenDto"];
+      };
+    };
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  TestingController_getTesting: {
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  TestingController_generatePasswordLessToken: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["AddOneTimeTokenDto"];
+      };
+    };
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  TestingController_uploadFile: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["BucketUploadDto"];
+      };
+    };
+    responses: {
+      201: {
+        content: never;
       };
     };
   };

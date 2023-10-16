@@ -8,9 +8,9 @@ interface Props {
   searchParams: { isFirstTime: string };
 }
 
-export default function PortalPage(props: Props) {
-  console.log('This is prrops', props);
+export const dynamic = 'force-dynamic';
 
+export default async function PortalPage(props: Props) {
   const isFirstTime = props.searchParams.isFirstTime === 'true';
 
   return (
