@@ -1,7 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
+  // experimental: {
+  //   appDir: true,
+  // },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'd2i787wp7pvfg2.cloudfront.net',
+        port: '',
+      },
+      {
+        protocol: 'http',
+        hostname: 'placehold.it',
+        port: '',
+      },
+    ],
   },
 };
 

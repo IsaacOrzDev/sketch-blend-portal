@@ -1,4 +1,4 @@
-import BlurImage from '@/components/bulr-image';
+import BlurImage from '@/components/blur-image';
 import { StartAccount } from '@/components/start-account';
 import { ModeToggle } from '@/components/mode-toggle';
 

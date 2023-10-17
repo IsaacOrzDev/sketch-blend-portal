@@ -80,7 +80,7 @@
 }
 
 .paperOverlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -90,4 +90,28 @@
   opacity: 0.8;
   mix-blend-mode: multiply;
   pointer-events: none;
+}
+
+.gridContainer {
+  display: grid;
+  /* grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); */
+  grid-template-rows: repeat(auto-fit);
+  grid-auto-flow: dense;
+  column-gap: 16px;
+
+  grid-template-columns: repeat(3,minmax(260px,1fr));
+}
+
+.subGrid {
+  /* grid-template-columns: minmax(0,1fr); */
+  row-gap: 16px;
+  grid-auto-flow: dense;
+  grid-auto-rows: max-content;
+  /* grid-auto-rows: auto; */
+}
+
+.text-outline {
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  color: white;
 }
