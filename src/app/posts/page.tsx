@@ -20,10 +20,10 @@ export default async function PostsPage() {
     <div className="flex flex-col w-full">
       <Header />
       <div className="w-full flex flex-col items-center overflow-y-auto">
-        <div className="lg:max-w-6xl w-full">
+        <div className="lg:max-w-6xl w-full max-lg:px-4">
           <BannerCard />
         </div>
-        <div className="w-full lg:max-w-6xl gridContainer mt-4 pb-4">
+        <div className="w-full lg:max-w-6xl gridContainer mt-4 pb-4 max-lg:px-4">
           <div className="grid subGrid">
             <ImageGridItem height={400} />
             <ImageGridItem height={400} />
