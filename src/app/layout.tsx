@@ -8,8 +8,9 @@ import { Toaster } from '@/components/ui/toaster';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'SketchBlend',
-  description: 'This is a demo application',
+  title: 'SKETCH BLEND',
+  description:
+    'A drawing and sharing portal that is powered by micro-service architecture in Kubernetes with AWS, and multiple backend lanaguages linked with Grpc',
 };
 
 export default function RootLayout({
