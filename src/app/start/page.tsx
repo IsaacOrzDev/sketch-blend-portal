@@ -5,21 +5,27 @@ import { ModeToggle } from '@/components/mode-toggle';
 export default async function StartPage() {
   return (
     <main className="flex min-h-screen items-center justify-between bg-background h-screen">
-      <div className="absolute top-6 right-6">
+      {/* <div className="absolute top-6 right-6">
         <ModeToggle />
-      </div>
-      <div className="flex-1 relative w-full h-full">
-        <div className="absolute w-full h-screen bg-background z-10 opacity-30" />
-        <BlurImage
-          src="/static/images/login_panel_cover.png"
-          alt="cover"
-          layout="fill"
-        />
-        <div className="w-full h-full" />
+      </div> */}
+      <div className="flex-1 relative w-full h-full max-lg:hidden">
+        <div className="absolute w-full h-screen bg-background z-0 opacity-90" />
+        <div className="">
+          <BlurImage
+            src="/static/images/login.png"
+            alt="cover"
+            layout="fill"
+            className=""
+          />
+        </div>
+        <div className="w-full h-full"></div>
       </div>
       <div className="flex-1 flex p-12 items-center justify-center">
-        <div className="min-w-[500px]">
-          <StartAccount />
+        <div className="max-w-[600px]">
+          <h1 className="text text-7xl text-outline font-bold uppercase mb-4 text-center">
+            SKETCH BLEND
+          </h1>
+          <StartAccount isLogin />
         </div>
       </div>
     </main>
