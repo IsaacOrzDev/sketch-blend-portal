@@ -30,7 +30,7 @@ export default async function PortalPage(props: Props) {
   return (
     <>
       <div className="w-full min-h-screen flex flex-col items-center overflow-y-auto">
-        <div className="w-full flex flex-col justify-start lg:max-w-6xl gap-4 m-10">
+        <div className="w-full flex flex-col justify-start lg:max-w-6xl max-xl:px-4 gap-4 m-10">
           <Label className="text text-xl">My Sketches</Label>
           <Separator className="mb-6" />
           <CanvasList />

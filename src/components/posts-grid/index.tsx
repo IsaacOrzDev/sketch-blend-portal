@@ -56,7 +56,7 @@ export default function PostsGrid(props: Props) {
   return (
     <>
       <div
-        className={`w-full lg:max-w-6xl gridContainer max-xl:px-4 ${props.className}`}
+        className={`w-full lg:max-w-6xl gridContainer max-xl:px-4 max-lg:flex max-lg:flex-col ${props.className}`}
       >
         {items.map((col, index) => (
           <div key={index} className="grid subGrid">
