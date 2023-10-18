@@ -47,7 +47,7 @@ export default function Sidebar() {
       </div>
       <div className="flex-1 my-6">
         <Button onClick={() => router.push('/portal/canvas/new')}>
-          New Canvas
+          New Sketch
         </Button>
         {data?.records.map((record) => (
           <div

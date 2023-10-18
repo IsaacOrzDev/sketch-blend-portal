@@ -21,7 +21,7 @@ export default async function PortalPage(props: Props) {
     <>
       <div className="w-full min-h-screen flex flex-col items-center overflow-y-auto">
         <div className="w-full flex flex-col justify-start lg:max-w-6xl gap-4 m-10">
-          <Label className="text text-xl">Your Canvas</Label>
+          <Label className="text text-xl">Your Sketches</Label>
           <Separator className="mb-6" />
           <CanvasList />
           <Label className="text text-xl mt-8">Your Posts</Label>

@@ -36,7 +36,7 @@ export default function ImageGridItem(props: Props) {
             <span className="text text-md">{props.userInfo?.name}</span>
           </div>
           <Button variant="outline" onClick={props.onClickSource}>
-            View Source
+            View Sketch
           </Button>
         </div>
       </CardContent>

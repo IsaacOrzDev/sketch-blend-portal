@@ -25,11 +25,7 @@ export default function CanvasList() {
 
   return (
     <div className="grid text-center lg:w-full lg:grid-cols-3 md:grid-cols-2 gap-4 w-full">
-      <NewCanvasCard
-        title="New Canvas"
-        description="testing"
-        onClick={() => router.push(`/portal/canvas/new`)}
-      />
+      <NewCanvasCard title="New Sketch" description="testing" />
       {data?.records.map((record, i) => (
         <CanvasCard
           key={i}
