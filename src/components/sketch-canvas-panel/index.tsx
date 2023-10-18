@@ -123,7 +123,6 @@ export default function SketchCanvasPanel(props: Props) {
         strokeWidth={strokeWidth}
         strokeColor={theme === 'light' ? 'black' : 'white'}
       />
-      <div className="paperOverlay outline-none" />
       <div className="absolute top-0 left-0 w-full py-2 px-4 flex justify-between items-center">
         <div className="flex gap-x-2">
           <Button
