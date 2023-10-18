@@ -153,7 +153,11 @@ export function StartAccount(props: Props) {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <Button className="w-full" onClick={onProcessPasswordLessLogin}>
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={onProcessPasswordLessLogin}
+              >
                 {isLogin ? 'Continue' : 'Register Account'}
               </Button>
               <div className="relative">
