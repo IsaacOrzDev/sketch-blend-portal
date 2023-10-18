@@ -20,7 +20,6 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { toast } from '../ui/use-toast';
 import { Save } from 'lucide-react';
 
 interface Props {

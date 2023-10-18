@@ -25,7 +25,7 @@ interface Props {
     description?: string;
   }) => void;
   onDelete?: (id: string) => void;
-  onGenerate?: (data: { prompt: string }) => void;
+  onGenerate?: (data: { svg: string; image: string; paths: any }) => void;
   record?: {
     id: string;
     paths: any;
@@ -46,7 +46,7 @@ export default function SketchCanvasPanel(props: Props) {
 
     const paths = props.record.paths;
     if (paths) {
-      await canvasRef.current?.resetCanvas();
+      await canvasRef.current?.clearCanvas();
       await canvasRef.current?.loadPaths(Object.values(paths));
     }
   };
@@ -60,6 +60,17 @@ export default function SketchCanvasPanel(props: Props) {
     const svg = (await canvasRef.current?.exportSvg()) ?? '';
     const image = (await canvasRef.current?.exportImage('png')) ?? '';
     props.onSave({ paths, svg, image });
+  };
+
+  const generateImage = async () => {
+    if (!props.onGenerate) {
+      return;
+    }
+
+    const paths = (await canvasRef.current?.exportPaths()) ?? {};
+    const svg = (await canvasRef.current?.exportSvg()) ?? '';
+    const image = (await canvasRef.current?.exportImage('png')) ?? '';
+    props.onGenerate({ paths, svg, image });
   };
 
   const saveNewCanvas = async (title: string, description?: string) => {
@@ -157,7 +168,10 @@ export default function SketchCanvasPanel(props: Props) {
               <Save />
             </Button>
           )}
-          {props.onGenerate && <GenerateSheet onSubmit={props.onGenerate} />}
+          {/* {props.onGenerate && <GenerateSheet onSubmit={props.onGenerate} />} */}
+          {props.onGenerate && (
+            <Button onClick={generateImage}>GENERATE</Button>
+          )}
         </div>
         {/* <ModeToggle /> */}
       </div>

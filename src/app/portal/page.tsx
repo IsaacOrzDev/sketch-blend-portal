@@ -5,15 +5,17 @@ import FirstTimeDialog from './first-time-dialog';
 import { Separator } from '@/components/ui/separator';
 import PostsGrid from '@/components/posts-grid';
 import Footer from '@/components/footer';
+import SuccessSharedDialog from './success-shrared-dialog';
 
 interface Props {
-  searchParams: { isFirstTime: string };
+  searchParams: { isFirstTime: string; isConfetti?: string };
 }
 
 export const dynamic = 'force-dynamic';
 
 export default async function PortalPage(props: Props) {
   const isFirstTime = props.searchParams.isFirstTime === 'true';
+  const isConfetti = props.searchParams.isConfetti === 'true';
 
   return (
     <>
@@ -28,8 +30,9 @@ export default async function PortalPage(props: Props) {
         <PostsGrid />
         <Footer hasPlaceholder />
       </div>
-      <FullScreenConfetti show={isFirstTime} />
+      <FullScreenConfetti show={isFirstTime || isConfetti} />
       <FirstTimeDialog open={isFirstTime} />
+      <SuccessSharedDialog open={isConfetti} />
     </>
   );
 }

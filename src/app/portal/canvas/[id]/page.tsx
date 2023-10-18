@@ -5,8 +5,8 @@ import { toast } from '@/components/ui/use-toast';
 import fetchService from '@/services/fetch-service';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
-import GenerationResultDialog from './generation-result-dialog';
 import { useState } from 'react';
+import GenerationDialog from './generation-dialog';
 
 interface Props {
   params?: { id: string };
@@ -14,6 +14,8 @@ interface Props {
 
 export default function CanvasContent(props: Props) {
   const [generatedImage, setGeneratedImage] = useState<string>('');
+  const [showGenerateDialog, setShowGenerateDialog] = useState<boolean>(false);
+  const [sourceImage, setSourceImage] = useState<string>('');
 
   const router = useRouter();
 
@@ -54,6 +56,16 @@ export default function CanvasContent(props: Props) {
     } catch (err) {
       alert(err);
     }
+  };
+
+  const processGenerate = async (data: {
+    paths: any;
+    svg: string;
+    image: string;
+  }) => {
+    await save(data);
+    setSourceImage(data.svg);
+    setShowGenerateDialog(true);
   };
 
   const generate = async (data: { prompt: string }) => {
@@ -103,14 +115,12 @@ export default function CanvasContent(props: Props) {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div />;
   }
 
   if (!data?.record) {
     return <div>404</div>;
   }
-
-  console.log('generatedImage', generatedImage);
 
   return (
     <div className="w-full h-screen">
@@ -118,11 +128,15 @@ export default function CanvasContent(props: Props) {
         record={data.record}
         onSave={save}
         onDelete={deleteRecord}
-        onGenerate={generate}
+        onGenerate={processGenerate}
       />
-      <GenerationResultDialog
-        open={!!generatedImage}
-        generatedImage={generatedImage}
+      <GenerationDialog
+        open={showGenerateDialog}
+        sourceImage={sourceImage}
+        documentId={props.params?.id ?? ''}
+        onClose={() => {
+          setShowGenerateDialog(false);
+        }}
       />
     </div>
   );
