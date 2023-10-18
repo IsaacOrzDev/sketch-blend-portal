@@ -8,7 +8,6 @@ import { useEffect, useRef, useState } from 'react';
 import { ReactSketchCanvasRef } from 'react-sketch-canvas';
 import dynamic from 'next/dynamic';
 import { Undo, Redo, Eraser, Pen, Save } from 'lucide-react';
-import GenerateSheet from './generate-sheet';
 import SaveSheet from './save-sheet';
 
 const SketchCanvas = dynamic(() => import('./sketch-canvas'), {

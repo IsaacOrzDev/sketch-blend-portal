@@ -5,6 +5,9 @@ import { Card, CardContent } from '../ui/card';
 
 interface Props {
   height: number;
+  prompt?: string;
+  imageUrl?: string;
+  sourceImageUrl?: string;
   userInfo?: {
     name: string;
     imageUrl?: string | null;
@@ -17,11 +20,20 @@ export default function ImageGridItem(props: Props) {
     <Card className="overflow-hidden">
       <CardContent className="p-0">
         <div className="relative" style={{ height: `${props.height}px` }}>
-          <BlurImage
-            src={`http://placehold.it/250x${props.height}`}
-            alt="testing"
-            layout="fill"
-          />
+          {!props.imageUrl && (
+            <BlurImage
+              src={`http://placehold.it/250x${props.height}`}
+              alt="testing"
+              layout="fill"
+            />
+          )}
+          {props.imageUrl && (
+            <BlurImage
+              src={props.imageUrl}
+              alt={props.prompt ?? ''}
+              layout="fill"
+            />
+          )}
         </div>
         <div className="p-4 flex justify-between items-center bg-background">
           <div className="flex items-center">
@@ -46,7 +58,7 @@ export default function ImageGridItem(props: Props) {
 
 ImageGridItem.defaultProps = {
   userInfo: {
-    name: 'Isaac',
+    name: 'Name',
     imageUrl: null,
   },
 };

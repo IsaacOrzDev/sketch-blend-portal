@@ -6,6 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import PostsGrid from '@/components/posts-grid';
 import Footer from '@/components/footer';
 import SuccessSharedDialog from './success-shrared-dialog';
+import fetchService from '@/services/fetch-service';
 
 interface Props {
   searchParams: { isFirstTime: string; isConfetti?: string };
@@ -17,6 +18,15 @@ export default async function PortalPage(props: Props) {
   const isFirstTime = props.searchParams.isFirstTime === 'true';
   const isConfetti = props.searchParams.isConfetti === 'true';
 
+  const posts = await fetchService.GET('/posts', {
+    params: {
+      query: {
+        // offset: 0,
+        // limit: 10,
+      },
+    },
+  });
+
   return (
     <>
       <div className="w-full min-h-screen flex flex-col items-center overflow-y-auto">
@@ -27,7 +37,14 @@ export default async function PortalPage(props: Props) {
           <Label className="text text-xl mt-8">Your Posts</Label>
           <Separator />
         </div>
-        <PostsGrid />
+        <PostsGrid
+          items={
+            posts.data?.records.map((item) => ({
+              record: item,
+              height: 200,
+            })) ?? []
+          }
+        />
         <Footer hasPlaceholder />
       </div>
       <FullScreenConfetti show={isFirstTime || isConfetti} />
