@@ -85,7 +85,7 @@ export default function Header(props: Props) {
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={goToProfile}>
-                      My Profile
+                      My Sketches
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={signOut}>
                       Signout

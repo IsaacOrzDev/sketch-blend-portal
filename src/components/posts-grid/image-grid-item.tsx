@@ -2,6 +2,7 @@ import BlurImage from '../blur-image';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
+import { Separator } from '../ui/separator';
 
 interface Props {
   height: number;
@@ -19,6 +20,16 @@ export default function ImageGridItem(props: Props) {
   return (
     <Card className="overflow-hidden">
       <CardContent className="p-0">
+        {props.sourceImageUrl && (
+          <div className="relative" style={{ height: `${props.height}px` }}>
+            <BlurImage
+              src={props.sourceImageUrl}
+              alt={props.prompt ?? ''}
+              layout="fill"
+            />
+          </div>
+        )}
+        <Separator className="mb-2" />
         <div className="relative" style={{ height: `${props.height}px` }}>
           {!props.imageUrl && (
             <BlurImage
