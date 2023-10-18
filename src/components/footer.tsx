@@ -1,11 +1,15 @@
 import { Github } from 'lucide-react';
 
-export default function Footer() {
+interface Props {
+  hasPlaceholder?: boolean;
+}
+
+export default function Footer(props: Props) {
   return (
     <>
       <div className="w-full h-20 fixed bottom-0 left-0 z-30 flex justify-center items-center max-xl:px-4 bg-background border-b border-black">
-        <div className="w-full flex justify-between lg:max-w-6xl">
-          <p className="text text-sm text-outline">
+        <div className="w-full flex justify-between items-center lg:max-w-6xl">
+          <p className="text text-sm">
             This is a open-source demo application, the backend is built with
             microservices architecture and host in Kubnernetes with AWS.
           </p>
@@ -14,7 +18,7 @@ export default function Footer() {
           </a>
         </div>
       </div>
-      <div className="w-full h-20 mb-4" />
+      {props.hasPlaceholder && <div className="w-full h-20 mb-4" />}
     </>
   );
 }

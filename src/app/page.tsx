@@ -38,7 +38,7 @@ export default async function PostsPage() {
         </div>
         <PostsGrid className="pt-4 pb-4" />
       </div>
-      <Footer />
+      <Footer hasPlaceholder />
     </div>
   );
 }

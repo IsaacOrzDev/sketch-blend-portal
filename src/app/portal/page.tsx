@@ -26,7 +26,7 @@ export default async function PortalPage(props: Props) {
           <Separator />
         </div>
         <PostsGrid />
-        <Footer />
+        <Footer hasPlaceholder />
       </div>
       <FullScreenConfetti show={isFirstTime} />
       <FirstTimeDialog open={isFirstTime} />
