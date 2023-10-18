@@ -7,6 +7,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogDescription,
 } from '@/components/ui/alert-dialog';
 import { PostRecord } from '@/types';
 import Image from 'next/image';
@@ -23,6 +24,7 @@ export default function SourceDialog(props: Props) {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{props.record?.prompt}</AlertDialogTitle>
+          <AlertDialogDescription>{props.record?.id}</AlertDialogDescription>
           <img src={props.record?.sourceImageUrl} />
           <img src={props.record?.imageUrl} />
         </AlertDialogHeader>
