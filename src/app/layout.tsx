@@ -27,7 +27,7 @@ export default function RootLayout({
             <Toaster />
           </GoogleProvider>
         </ThemeProvider>
-        <div className="paperOverlay" />
+        <div className="paperOverlay select-none" />
       </body>
     </html>
   );

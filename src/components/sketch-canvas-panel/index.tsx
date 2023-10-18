@@ -170,7 +170,9 @@ export default function SketchCanvasPanel(props: Props) {
           )}
           {/* {props.onGenerate && <GenerateSheet onSubmit={props.onGenerate} />} */}
           {props.onGenerate && (
-            <Button onClick={generateImage}>GENERATE</Button>
+            <Button className="select-none" onClick={generateImage}>
+              GENERATE
+            </Button>
           )}
         </div>
         {/* <ModeToggle /> */}
