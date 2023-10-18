@@ -107,7 +107,7 @@ export default function SketchCanvasPanel(props: Props) {
     if (props.record?.id) {
       setTimeout(() => {
         loadCanvas();
-      }, 200);
+      }, 600);
     }
   }, [props.record?.id]);
 
@@ -115,7 +115,7 @@ export default function SketchCanvasPanel(props: Props) {
     <div className="relative w-full h-full dark:bg-[#1e1d1d]">
       <SketchCanvas
         canvasRef={canvasRef}
-        className="select-none border-none cursor-crosshair"
+        className="select-none border-none cursor-crosshair outline-none"
         style={{ border: 'none' }}
         canvasColor="transparent"
         width="100%"
@@ -123,10 +123,11 @@ export default function SketchCanvasPanel(props: Props) {
         strokeWidth={strokeWidth}
         strokeColor={theme === 'light' ? 'black' : 'white'}
       />
-      <div className="paperOverlay" />
+      <div className="paperOverlay outline-none" />
       <div className="absolute top-0 left-0 w-full py-2 px-4 flex justify-between items-center">
         <div className="flex gap-x-2">
           <Button
+            variant="outline"
             onClick={() => {
               console.log('canvasRef}', canvasRef);
               canvasRef.current?.undo();
@@ -135,6 +136,7 @@ export default function SketchCanvasPanel(props: Props) {
             <Undo />
           </Button>
           <Button
+            variant="outline"
             onClick={() => {
               canvasRef.current?.redo();
             }}
@@ -142,6 +144,7 @@ export default function SketchCanvasPanel(props: Props) {
             <Redo />
           </Button>
           <Button
+            variant="outline"
             onClick={() => {
               setIsEraseMode(!isEraseMode);
               canvasRef.current?.eraseMode(!isEraseMode);
@@ -151,12 +154,12 @@ export default function SketchCanvasPanel(props: Props) {
           </Button>
           {props.isNew && <SaveSheet onSave={saveNewCanvas} />}
           {!props.isNew && (
-            <Button onClick={saveCanvas}>
+            <Button variant="outline" onClick={saveCanvas}>
               <Save />
             </Button>
           )}
+          {props.onGenerate && <GenerateSheet onSubmit={props.onGenerate} />}
         </div>
-        {props.onGenerate && <GenerateSheet onSubmit={props.onGenerate} />}
         {/* <ModeToggle /> */}
       </div>
       <div className="absolute left-2 bottom-[50%] h-[300px] transform translate-y-[50%]">
@@ -165,11 +168,12 @@ export default function SketchCanvasPanel(props: Props) {
           max={50}
           step={1}
           orientation="vertical"
-          className="flex-col h-full w-[20px]"
+          className="flex-col h-full w-[20px] mb-2"
           onValueChange={(value) => {
             setStrokeWidth(value[0]);
           }}
         />
+        {!isEraseMode ? <Pen /> : <Eraser />}
       </div>
     </div>
   );

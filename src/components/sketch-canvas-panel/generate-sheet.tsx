@@ -51,7 +51,9 @@ export default function GenerateSheet(props: Props) {
 
   return (
     <Sheet>
-      <SheetTrigger>Generate</SheetTrigger>
+      <Button asChild>
+        <SheetTrigger>GENERATE</SheetTrigger>
+      </Button>
       <SheetContent className="w-[400px] sm:w-[540px]">
         <SheetHeader>
           <SheetTitle>Generate Image</SheetTitle>
