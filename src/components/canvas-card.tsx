@@ -19,7 +19,12 @@ export default function CanvasCard(props: Props) {
           className="cursor-pointer hover:border-gray-300 hover:bg-gray-100 max-h-[800px] flex-1"
           onClick={props.onClick}
         >
-          <img src={props.imageUrl} />
+          {/* <img src={props.imageUrl} /> */}
+          <img
+            src={`data:image/svg+xml;utf8,${encodeURIComponent(
+              props.imageUrl ?? ''
+            )}`}
+          />
         </CardHeader>
         <div className="flex justify-between items-center p-4">
           <CardTitle className="text-start">{props.title}</CardTitle>

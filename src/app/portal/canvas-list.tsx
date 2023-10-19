@@ -65,7 +65,7 @@ export default function CanvasList() {
       {data?.records.map((record, i) => (
         <CanvasCard
           key={i}
-          imageUrl={record.image ?? ''}
+          imageUrl={record.svg ?? ''}
           title={record.title}
           description={record.description}
           onClick={() => router.push(`/portal/canvas/${record.id}`)}

@@ -46,6 +46,9 @@ export interface paths {
   "/documents/create": {
     post: operations["DocumentController_saveDocument"];
   };
+  "/documents/create/empty": {
+    post: operations["DocumentController_saveEmptyDocument"];
+  };
   "/posts": {
     get: operations["PostController_getList"];
   };
@@ -490,6 +493,27 @@ export interface operations {
         "application/json": components["schemas"]["SaveDocumentDto"];
       };
     };
+    responses: {
+      201: {
+        content: {
+          "application/json": components["schemas"]["SaveDocumentResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  DocumentController_saveEmptyDocument: {
     responses: {
       201: {
         content: {

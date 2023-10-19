@@ -43,7 +43,7 @@ export default function CanvasContent(props: Props) {
         body: {
           id: props.params.id,
           data: {
-            title: 'test',
+            title: '',
             description: null,
             paths: data.paths,
             svg: data.svg,
