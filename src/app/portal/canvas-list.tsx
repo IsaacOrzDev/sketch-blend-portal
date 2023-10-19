@@ -1,6 +1,7 @@
 'use client';
 
 import CanvasCard from '@/components/canvas-card';
+import Loader from '@/components/loader';
 import NewCanvasCard from '@/components/new-canvas-card';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
@@ -43,6 +44,14 @@ export default function CanvasList() {
       alert(err);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="w-full p-4 flex justify-center">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="grid text-center lg:w-full lg:grid-cols-3 md:grid-cols-2 gap-4 w-full">

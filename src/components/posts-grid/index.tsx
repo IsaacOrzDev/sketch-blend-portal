@@ -54,7 +54,7 @@ export default function PostsGrid(props: Props) {
   useEffect(() => {
     initGrid();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props.items.length]);
 
   return (
     <>

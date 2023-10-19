@@ -3,11 +3,9 @@ import { Label } from '@/components/ui/label';
 import FullScreenConfetti from '@/components/full-screen-confetti';
 import FirstTimeDialog from './first-time-dialog';
 import { Separator } from '@/components/ui/separator';
-import PostsGrid from '@/components/posts-grid';
 import Footer from '@/components/footer';
 import SuccessSharedDialog from './success-shrared-dialog';
-import fetchService from '@/services/fetch-service';
-import { getAuthHeaders } from '@/lib/auth-utils';
+import UserPostsGrid from './user-posts-grid';
 
 interface Props {
   searchParams: { isFirstTime: string; isConfetti?: string };
@@ -19,16 +17,6 @@ export default async function PortalPage(props: Props) {
   const isFirstTime = props.searchParams.isFirstTime === 'true';
   const isConfetti = props.searchParams.isConfetti === 'true';
 
-  const posts = await fetchService.GET('/posts/user', {
-    headers: getAuthHeaders(),
-    params: {
-      query: {
-        // offset: 0,
-        // limit: 10,
-      },
-    },
-  });
-
   return (
     <>
       <div className="w-full min-h-screen flex flex-col items-center overflow-y-auto">
@@ -39,15 +27,7 @@ export default async function PortalPage(props: Props) {
           <Label className="text text-xl mt-8">My Posts</Label>
           <Separator />
         </div>
-        <PostsGrid
-          isOwner
-          items={
-            posts.data?.records.map((item) => ({
-              record: item,
-              height: 200,
-            })) ?? []
-          }
-        />
+        <UserPostsGrid />
         <Footer hasPlaceholder />
       </div>
       <FullScreenConfetti show={isFirstTime || isConfetti} />
