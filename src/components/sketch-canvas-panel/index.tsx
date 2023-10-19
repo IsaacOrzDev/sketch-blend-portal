@@ -9,6 +9,8 @@ import { ReactSketchCanvasRef } from 'react-sketch-canvas';
 import dynamic from 'next/dynamic';
 import { Undo, Redo, Eraser, Pen, Save } from 'lucide-react';
 import SaveSheet from './save-sheet';
+import { useAtom } from 'jotai';
+import { loadingAtom } from '@/state/ui';
 
 const SketchCanvas = dynamic(() => import('./sketch-canvas'), {
   ssr: false,
@@ -35,6 +37,7 @@ export default function SketchCanvasPanel(props: Props) {
   const canvasRef = useRef<ReactSketchCanvasRef>(null);
   const [strokeWidth, setStrokeWidth] = useState(2);
   const [isEraseMode, setIsEraseMode] = useState(false);
+  const [showLoader, setShowLoader] = useAtom(loadingAtom);
 
   const { theme, setTheme } = useTheme();
 
@@ -55,10 +58,12 @@ export default function SketchCanvasPanel(props: Props) {
       return;
     }
 
+    setShowLoader(true);
     const paths = (await canvasRef.current?.exportPaths()) ?? {};
     const svg = (await canvasRef.current?.exportSvg()) ?? '';
     const image = (await canvasRef.current?.exportImage('png')) ?? '';
-    props.onSave({ paths, svg, image });
+    await props.onSave({ paths, svg, image });
+    setShowLoader(false);
   };
 
   const generateImage = async () => {
@@ -66,10 +71,12 @@ export default function SketchCanvasPanel(props: Props) {
       return;
     }
 
+    setShowLoader(true);
     const paths = (await canvasRef.current?.exportPaths()) ?? {};
     const svg = (await canvasRef.current?.exportSvg()) ?? '';
     const image = (await canvasRef.current?.exportImage('png')) ?? '';
-    props.onGenerate({ paths, svg, image });
+    await props.onGenerate({ paths, svg, image });
+    setShowLoader(false);
   };
 
   const saveNewCanvas = async (title: string, description?: string) => {

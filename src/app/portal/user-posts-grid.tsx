@@ -3,9 +3,13 @@
 import Loader from '@/components/loader';
 import PostsGrid from '@/components/posts-grid';
 import fetchService from '@/services/fetch-service';
+import { loadingAtom } from '@/state/ui';
+import { useAtom } from 'jotai';
 import useSWR from 'swr';
 
 export default function UserPostsGrid() {
+  const [, setShowLoader] = useAtom(loadingAtom);
+
   const { data, error, isLoading, mutate } = useSWR('/posts/user', (url) =>
     fetchService
       .GET('/posts/user', {
@@ -22,12 +26,14 @@ export default function UserPostsGrid() {
   if (isLoading) return <Loader />;
 
   const deleteRecord = async (id: string) => {
+    setShowLoader(true);
     await fetchService.DELETE('/posts/{id}', {
       params: {
         path: { id: id },
       },
     });
-    mutate();
+    await mutate();
+    setShowLoader(false);
   };
 
   if (data?.records.length === 0) {

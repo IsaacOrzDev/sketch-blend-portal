@@ -3,14 +3,17 @@
 import CanvasCard from '@/components/canvas-card';
 import Loader from '@/components/loader';
 import NewCanvasCard from '@/components/new-canvas-card';
-import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
 import fetchService from '@/services/fetch-service';
+import { loadingAtom } from '@/state/ui';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 
 export default function CanvasList() {
   const router = useRouter();
+
+  const [, setShowLoader] = useAtom(loadingAtom);
 
   const { data, error, isLoading, mutate } = useSWR('/documents', (url) =>
     fetchService
@@ -30,6 +33,7 @@ export default function CanvasList() {
       return;
     }
 
+    setShowLoader(true);
     try {
       await fetchService.DELETE('/documents/{id}', {
         params: {
@@ -39,9 +43,11 @@ export default function CanvasList() {
       toast({
         title: 'Deleted',
       });
-      mutate();
+      await mutate();
+      setShowLoader(false);
     } catch (err) {
       alert(err);
+      setShowLoader(false);
     }
   };
 

@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import GoogleProvider from '@/components/google-provider';
 import { Toaster } from '@/components/ui/toaster';
+import FullScreenLoader from '@/components/full-screen-loader';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
           <GoogleProvider>
             {children}
             <Toaster />
+            <FullScreenLoader />
           </GoogleProvider>
         </ThemeProvider>
         <div className="paperOverlay select-none" />

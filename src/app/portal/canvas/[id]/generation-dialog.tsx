@@ -172,7 +172,10 @@ export default function GenerationDialog(props: Props) {
       {stage === 'generated' && (
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Completed</AlertDialogTitle>
+            <AlertDialogTitle>Completed!</AlertDialogTitle>
+            <AlertDialogDescription>
+              You have generate a image based on your sketch.
+            </AlertDialogDescription>
             <img
               src={`data:image/svg+xml;utf8,${encodeURIComponent(
                 props.sourceImage ?? ''
