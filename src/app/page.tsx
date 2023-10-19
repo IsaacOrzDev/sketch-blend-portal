@@ -2,9 +2,9 @@ import Header from '@/components/header';
 import fetchService from '@/services/fetch-service';
 import BannerCard from '@/components/banner-card';
 import Footer from '@/components/footer';
-import PostsGrid from '@/components/posts-grid';
 import { cookies } from 'next/headers';
 import COOKIES_CONFIG from '@/config/cookie-config';
+import PublicPostsGrid from './public-posts-grid';
 
 export const dynamic = 'force-dynamic';
 
@@ -36,20 +36,7 @@ export default async function PostsPage() {
         <div className="lg:max-w-6xl w-full max-xl:px-4">
           <BannerCard />
         </div>
-        <PostsGrid
-          items={
-            posts.data?.records.map((item) => ({
-              record: item,
-              height: 200,
-            })) ?? []
-          }
-          // items={[
-          //   400, 400, 200, 800, 500, 800, 200, 100, 100, 400, 800, 600,
-          // ].map((item) => ({
-          //   height: item,
-          // }))}
-          className="pt-4 pb-4"
-        />
+        <PublicPostsGrid />
       </div>
       <Footer hasPlaceholder />
     </div>
