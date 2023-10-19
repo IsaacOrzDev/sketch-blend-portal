@@ -49,6 +49,9 @@ export interface paths {
   "/posts": {
     get: operations["PostController_getList"];
   };
+  "/posts/user": {
+    get: operations["PostController_getListByUser"];
+  };
   "/posts/create": {
     post: operations["PostController_create"];
   };
@@ -72,6 +75,9 @@ export interface paths {
   };
   "/testing/bucket/upload": {
     post: operations["TestingController_uploadFile"];
+  };
+  "/testing/image/size": {
+    get: operations["TestingController_getImageSize"];
   };
 }
 
@@ -531,6 +537,33 @@ export interface operations {
       };
     };
   };
+  PostController_getListByUser: {
+    parameters: {
+      query?: {
+        offset?: number;
+        limit?: number;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetPostListResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
   PostController_create: {
     requestBody: {
       content: {
@@ -674,6 +707,18 @@ export interface operations {
     };
     responses: {
       201: {
+        content: never;
+      };
+    };
+  };
+  TestingController_getImageSize: {
+    parameters: {
+      query: {
+        imageUrl: string;
+      };
+    };
+    responses: {
+      200: {
         content: never;
       };
     };

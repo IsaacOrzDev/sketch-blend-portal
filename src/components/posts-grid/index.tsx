@@ -4,6 +4,7 @@ import { PostRecord } from '@/types';
 import ImageGridItem from './image-grid-item';
 import SourceDialog from './source-dialog';
 import { useEffect, useState } from 'react';
+import fetchService from '@/services/fetch-service';
 
 interface Props {
   className?: string;
@@ -11,6 +12,8 @@ interface Props {
     record?: PostRecord;
     height: number;
   }>;
+  isOwner?: boolean;
+  onDelete?: (id: string) => void;
 }
 
 export default function PostsGrid(props: Props) {
@@ -71,6 +74,8 @@ export default function PostsGrid(props: Props) {
                     setSourceOpen(true);
                   }
                 }}
+                isOwner={props.isOwner}
+                onClickDelete={() => props.onDelete?.(item.record?.id ?? '')}
               />
             ))}
           </div>

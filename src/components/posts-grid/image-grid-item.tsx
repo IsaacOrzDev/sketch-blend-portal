@@ -13,7 +13,9 @@ interface Props {
     name: string;
     imageUrl?: string | null;
   };
+  isOwner?: boolean;
   onClickSource?: () => void;
+  onClickDelete?: () => void;
 }
 
 export default function ImageGridItem(props: Props) {
@@ -47,20 +49,32 @@ export default function ImageGridItem(props: Props) {
           )}
         </div>
         <div className="p-4 flex justify-between items-center bg-background">
-          <div className="flex items-center">
-            <Avatar className="w-6 h-6 mr-2">
-              {props.userInfo?.imageUrl && (
-                <AvatarImage src={props.userInfo?.imageUrl} />
-              )}
-              <AvatarFallback className="text-xs">
-                {props.userInfo?.name.slice(0, 2).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <span className="text text-md">{props.userInfo?.name}</span>
-          </div>
-          <Button variant="outline" onClick={props.onClickSource}>
-            View Sketch
-          </Button>
+          {!props.isOwner && (
+            <>
+              <div className="flex items-center">
+                <Avatar className="w-6 h-6 mr-2">
+                  {props.userInfo?.imageUrl && (
+                    <AvatarImage src={props.userInfo?.imageUrl} />
+                  )}
+                  <AvatarFallback className="text-xs">
+                    {props.userInfo?.name.slice(0, 2).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="text text-md">{props.userInfo?.name}</span>
+              </div>
+              <Button variant="outline" onClick={props.onClickSource}>
+                View Sketch
+              </Button>
+            </>
+          )}
+          {props.isOwner && (
+            <>
+              <div />
+              <Button variant="outline" onClick={props.onClickDelete}>
+                Delete
+              </Button>
+            </>
+          )}
         </div>
       </CardContent>
     </Card>

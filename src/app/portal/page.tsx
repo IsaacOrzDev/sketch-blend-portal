@@ -7,6 +7,7 @@ import PostsGrid from '@/components/posts-grid';
 import Footer from '@/components/footer';
 import SuccessSharedDialog from './success-shrared-dialog';
 import fetchService from '@/services/fetch-service';
+import { getAuthHeaders } from '@/lib/auth-utils';
 
 interface Props {
   searchParams: { isFirstTime: string; isConfetti?: string };
@@ -18,7 +19,8 @@ export default async function PortalPage(props: Props) {
   const isFirstTime = props.searchParams.isFirstTime === 'true';
   const isConfetti = props.searchParams.isConfetti === 'true';
 
-  const posts = await fetchService.GET('/posts', {
+  const posts = await fetchService.GET('/posts/user', {
+    headers: getAuthHeaders(),
     params: {
       query: {
         // offset: 0,
@@ -38,6 +40,7 @@ export default async function PortalPage(props: Props) {
           <Separator />
         </div>
         <PostsGrid
+          isOwner
           items={
             posts.data?.records.map((item) => ({
               record: item,

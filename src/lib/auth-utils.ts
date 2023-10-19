@@ -1,4 +1,5 @@
 import COOKIES_CONFIG from '@/config/cookie-config';
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 export const setAccessTokenCookieAndRedirect = (params: {
@@ -28,4 +29,13 @@ export const setAccessTokenCookieAndRedirect = (params: {
     secure: redirectUrl.startsWith('https://'),
   });
   return response;
+};
+
+export const getAuthHeaders = () => {
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get(COOKIES_CONFIG.ACCESS_TOKEN_KEY)?.value;
+
+  return {
+    Authorization: `Bearer ${accessToken}`,
+  };
 };
