@@ -129,7 +129,10 @@ export default function SketchCanvasPanel(props: Props) {
   }, [props.record?.id]);
 
   return (
-    <div className="relative w-full h-full dark:bg-[#1e1d1d]">
+    <div
+      className="relative w-full dark:bg-[#1e1d1d]"
+      style={{ height: 'calc(100vh - 100px)' }}
+    >
       <SketchCanvas
         canvasRef={canvasRef}
         className="select-none border-none cursor-crosshair outline-none"

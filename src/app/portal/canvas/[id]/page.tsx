@@ -5,8 +5,9 @@ import { toast } from '@/components/ui/use-toast';
 import fetchService from '@/services/fetch-service';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import GenerationDialog from './generation-dialog';
+import Loader from '@/components/loader';
 
 interface Props {
   params?: { id: string };
@@ -19,11 +20,12 @@ export default function CanvasContent(props: Props) {
 
   const router = useRouter();
 
+  const random = useRef(Date.now());
   const { data, isLoading, mutate } = useSWR(
-    props.params?.id ? '/documents/{id}' : null,
+    props.params?.id ? ['/documents/{id}', random] : null,
     (url) =>
       fetchService
-        .GET(url, {
+        .GET('/documents/{id}', {
           params: {
             path: { id: props.params?.id! },
           },
@@ -115,21 +117,30 @@ export default function CanvasContent(props: Props) {
   };
 
   if (isLoading) {
-    return <div />;
+    return (
+      <div
+        className="w-full flex justify-center items-center"
+        style={{ height: 'calc(100vh - 100px)' }}
+      >
+        <Loader />
+      </div>
+    );
   }
 
   if (!data?.record) {
-    return <div>404</div>;
+    return <div>Not Found</div>;
   }
 
   return (
-    <div className="w-full h-screen">
-      <SketchCanvasPanel
-        record={data.record}
-        onSave={save}
-        onDelete={deleteRecord}
-        onGenerate={processGenerate}
-      />
+    <div className="w-full">
+      {data.record && (
+        <SketchCanvasPanel
+          record={data.record}
+          onSave={save}
+          onDelete={deleteRecord}
+          onGenerate={processGenerate}
+        />
+      )}
       <GenerationDialog
         open={showGenerateDialog}
         sourceImage={sourceImage}

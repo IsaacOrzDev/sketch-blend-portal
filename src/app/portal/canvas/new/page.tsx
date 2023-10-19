@@ -37,7 +37,7 @@ export default function NewCanvasPage(props: Props) {
   };
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full">
       <SketchCanvasPanel onSave={save} isNew />
     </div>
   );
