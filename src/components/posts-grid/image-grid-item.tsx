@@ -52,7 +52,7 @@ export default function ImageGridItem(props: Props) {
           {!props.isOwner && (
             <>
               <div className="flex items-center">
-                <Avatar className="w-6 h-6 mr-2">
+                {/* <Avatar className="w-6 h-6 mr-2">
                   {props.userInfo?.imageUrl && (
                     <AvatarImage src={props.userInfo?.imageUrl} />
                   )}
@@ -60,10 +60,12 @@ export default function ImageGridItem(props: Props) {
                     {props.userInfo?.name.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                <span className="text text-md">{props.userInfo?.name}</span>
+                <span className="text text-md">{props.userInfo?.name}</span> */}
+
+                <span className="text text-md">{props.prompt}</span>
               </div>
               <Button variant="outline" onClick={props.onClickSource}>
-                View Sketch
+                View Details
               </Button>
             </>
           )}
