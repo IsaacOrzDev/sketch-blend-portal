@@ -30,11 +30,11 @@ export default function NewCanvasCard(props: Props) {
 
       return;
     }
+    router.push(`/portal/canvas/${response.data?.id}`);
+    setLoading(false);
     toast({
       title: 'Please draw anything on the canvas to generate new image.',
     });
-    router.push(`/portal/canvas/${response.data?.id}`);
-    setLoading(false);
   };
 
   return (
