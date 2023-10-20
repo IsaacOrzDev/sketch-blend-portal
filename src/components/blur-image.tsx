@@ -23,7 +23,7 @@ export default function BlurImage(props: Props) {
       {...props}
       alt={props.alt}
       className={cn(
-        `object-cover duration-600 ease-in-out ${props.className}`,
+        `object-cover duration-800 ease-in-out ${props.className}`,
         isLoading ? 'blur-2xl' : 'blur-0'
       )}
       onLoadingComplete={() => setLoading(false)}
