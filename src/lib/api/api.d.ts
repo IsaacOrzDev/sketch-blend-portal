@@ -173,7 +173,7 @@ export interface components {
       sourceImageUrl: string;
       userInfo: components["schemas"]["UserInfo"];
       imageInfo: components["schemas"]["ImageInfo"];
-      sourceImageInfo: components["schemas"]["UserInfo"];
+      sourceImageInfo: components["schemas"]["ImageInfo"];
     };
     GetPostListResponse: {
       records: components["schemas"]["PostRecord"][];
@@ -190,7 +190,7 @@ export interface components {
       sourceImageUrl: string;
       userInfo: components["schemas"]["UserInfo"];
       imageInfo: components["schemas"]["ImageInfo"];
-      sourceImageInfo: components["schemas"]["UserInfo"];
+      sourceImageInfo: components["schemas"]["ImageInfo"];
     };
     GenerateTokenDto: {
       userId: number;
