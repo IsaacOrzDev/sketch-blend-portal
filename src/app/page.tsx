@@ -9,15 +9,6 @@ import PublicPostsGrid from './public-posts-grid';
 export const dynamic = 'force-dynamic';
 
 export default async function PostsPage() {
-  const posts = await fetchService.GET('/posts', {
-    params: {
-      query: {
-        // offset: 0,
-        // limit: 10,
-      },
-    },
-  });
-
   const cookieStore = cookies();
   const accessToken = cookieStore.get(COOKIES_CONFIG.ACCESS_TOKEN_KEY)?.value;
 

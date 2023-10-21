@@ -46,7 +46,9 @@ export default function PostsGrid(props: Props) {
         (row) => row.height === Math.min(...grid.map((row) => row.height))
       );
       grid[index].items.push(item);
-      grid[index].height += item.height;
+      grid[index].height +=
+        (item.record?.imageInfo?.height ?? 0) +
+          (item.record?.sourceImageInfo?.height ?? 0) ?? item.height;
     });
     setItems(grid);
   };

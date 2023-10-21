@@ -7,4 +7,12 @@ export interface PostRecord {
     name: string;
     imageUrl: string | null;
   };
+  imageInfo?: {
+    width: number;
+    height: number;
+  };
+  sourceImageInfo?: {
+    width: number;
+    height: number;
+  };
 }

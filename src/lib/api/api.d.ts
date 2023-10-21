@@ -162,12 +162,18 @@ export interface components {
       name: string;
       imageUrl: string | null;
     };
+    ImageInfo: {
+      width: number;
+      height: number;
+    };
     PostRecord: {
       id: string;
       prompt: string;
       imageUrl: string;
       sourceImageUrl: string;
       userInfo: components["schemas"]["UserInfo"];
+      imageInfo: components["schemas"]["ImageInfo"];
+      sourceImageInfo: components["schemas"]["UserInfo"];
     };
     GetPostListResponse: {
       records: components["schemas"]["PostRecord"][];
@@ -183,6 +189,8 @@ export interface components {
       imageUrl: string;
       sourceImageUrl: string;
       userInfo: components["schemas"]["UserInfo"];
+      imageInfo: components["schemas"]["ImageInfo"];
+      sourceImageInfo: components["schemas"]["UserInfo"];
     };
     GenerateTokenDto: {
       userId: number;

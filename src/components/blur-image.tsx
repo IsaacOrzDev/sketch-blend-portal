@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import useProgressiveImg from '@/hooks/use-progressive-img';
 
 interface Props {
   className?: string;
@@ -16,17 +16,17 @@ interface Props {
 }
 
 export default function BlurImage(props: Props) {
-  const [isLoading, setLoading] = useState(true);
+  const { src, blur } = useProgressiveImg(props.src, props.src);
 
   return (
     <Image
       {...props}
+      src={src}
       alt={props.alt}
       className={cn(
         `object-cover duration-800 ease-in-out ${props.className}`,
-        isLoading ? 'blur-2xl' : 'blur-0'
+        blur ? 'blur-[20px]' : 'blur-0'
       )}
-      onLoadingComplete={() => setLoading(false)}
     />
   );
 }
