@@ -1,7 +1,6 @@
 'use client';
 
 import PostsGrid from '@/components/posts-grid';
-import { Skeleton } from '@/components/ui/skeleton';
 import fetchService from '@/services/fetch-service';
 import { loadingAtom } from '@/state/ui';
 import { useAtom } from 'jotai';
@@ -22,15 +21,6 @@ export default function UserPostsGrid() {
       })
       .then((res) => res.data)
   );
-
-  if (isLoading)
-    return (
-      <div className="mt-10 mb-10 flex gap-4 w-full lg:max-w-6xl">
-        <Skeleton className="flex-1 h-[550px] rounded" />
-        <Skeleton className="flex-1 h-[550px] rounded" />
-        <Skeleton className="flex-1 h-[550px] rounded" />
-      </div>
-    );
 
   const deleteRecord = async (id: string) => {
     setShowLoader(true);
@@ -61,6 +51,7 @@ export default function UserPostsGrid() {
             height: 200,
           })) ?? []
         }
+        loading={isLoading}
         onDelete={deleteRecord}
       />
     </>

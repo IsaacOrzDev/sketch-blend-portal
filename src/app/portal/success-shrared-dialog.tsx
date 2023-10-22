@@ -43,7 +43,9 @@ export default function SuccessSharedDialog(props: Props) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction onClick={confirm}>Confirm</AlertDialogAction>
+          <AlertDialogAction onClick={confirm} onTouchEnd={confirm}>
+            Confirm
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

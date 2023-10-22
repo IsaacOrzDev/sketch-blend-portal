@@ -44,7 +44,9 @@ export default function SourceDialog(props: Props) {
           </div>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction onClick={props.onClose}>Close</AlertDialogAction>
+          <AlertDialogAction onClick={props.onClose} onTouchEnd={props.onClose}>
+            Close
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

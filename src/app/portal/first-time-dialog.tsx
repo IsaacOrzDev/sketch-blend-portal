@@ -43,7 +43,9 @@ export default function FirstTimeDialog(props: Props) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction onClick={confirm}>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={confirm} onTouchEnd={confirm}>
+            Continue
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -5,6 +5,7 @@ import ImageGridItem from './image-grid-item';
 import SourceDialog from './source-dialog';
 import { useEffect, useState } from 'react';
 import fetchService from '@/services/fetch-service';
+import { Skeleton } from '../ui/skeleton';
 
 interface Props {
   className?: string;
@@ -14,6 +15,7 @@ interface Props {
   }>;
   isOwner?: boolean;
   onDelete?: (id: string) => void;
+  loading?: boolean;
 }
 
 export default function PostsGrid(props: Props) {
@@ -82,6 +84,16 @@ export default function PostsGrid(props: Props) {
             ))}
           </div>
         ))}
+        {props.loading && (
+          <>
+            <Skeleton className="w-full h-[250px] mb-4 rounded" />
+            <Skeleton className="w-full h-[250px] rounded" />
+            <Skeleton className="w-full h-[250px] rounded" />
+            <Skeleton className="w-full h-[550px] rounded" />
+            <Skeleton className="w-full h-[550px] rounded" />
+            <Skeleton className="w-full h-[550px] rounded" />
+          </>
+        )}
       </div>
       <SourceDialog
         open={sourceOpen}
