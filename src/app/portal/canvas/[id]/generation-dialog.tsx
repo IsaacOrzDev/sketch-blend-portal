@@ -149,10 +149,16 @@ export default function GenerationDialog(props: Props) {
             </form>
           </Form>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={props.onClose}>
+            <AlertDialogCancel
+              onClick={props.onClose}
+              onTouchEnd={props.onClose}
+            >
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction onClick={form.handleSubmit(generate)}>
+            <AlertDialogAction
+              onClick={form.handleSubmit(generate)}
+              onTouchEnd={form.handleSubmit(generate)}
+            >
               Confirm
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -190,10 +196,15 @@ export default function GenerationDialog(props: Props) {
             />
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={props.onClose}>
+            <AlertDialogCancel
+              onClick={props.onClose}
+              onTouchEnd={props.onClose}
+            >
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction onClick={share}>Post it!</AlertDialogAction>
+            <AlertDialogAction onClick={share} onTouchEnd={share}>
+              Post it!
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       )}
