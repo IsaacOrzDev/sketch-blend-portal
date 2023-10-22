@@ -26,8 +26,8 @@ import * as z from 'zod';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import Loader from '@/components/loader';
-import { Button } from '@/components/ui/button';
 import fetchService from '@/services/fetch-service';
+import BlurImage from '@/components/blur-image';
 
 interface Props {
   open?: boolean;
@@ -110,11 +110,6 @@ export default function GenerationDialog(props: Props) {
     }
   };
 
-  // const confirm = () => {
-  //   props.onClose && props.onClose();
-  //   router.replace('/portal');
-  // };
-
   return (
     <AlertDialog open={props.open}>
       {stage === 'prompt' && (
@@ -127,11 +122,13 @@ export default function GenerationDialog(props: Props) {
               You can generate a new image based on your drawing and a prompt.
             </AlertDescription>
           </AlertDialogHeader>
-          <img
+          <BlurImage
             src={`data:image/svg+xml;utf8,${encodeURIComponent(
               props.sourceImage ?? ''
             )}`}
             className="rounded-sm border-2 border-primary"
+            alt="source"
+            useNativeElement
           />
           <Form {...form}>
             <form className="w-2/3 space-y-6">
@@ -177,12 +174,19 @@ export default function GenerationDialog(props: Props) {
             <AlertDialogDescription>
               You have generate a new image based on your sketch.
             </AlertDialogDescription>
-            <img src={generatedImage} className="rounded-sm" />
-            <img
+            <BlurImage
+              src={generatedImage}
+              alt="generated"
+              className="rounded-sm"
+              useNativeElement
+            />
+            <BlurImage
               src={`data:image/svg+xml;utf8,${encodeURIComponent(
                 props.sourceImage ?? ''
               )}`}
               className="mt-4 rounded-sm border-2 border-primary"
+              alt="source"
+              useNativeElement
             />
           </AlertDialogHeader>
           <AlertDialogFooter>

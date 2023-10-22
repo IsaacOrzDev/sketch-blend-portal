@@ -62,9 +62,6 @@ export function StartAccount(props: Props) {
     });
     if (!result.error) {
       setSent(true);
-      toast({
-        title: 'Email sent',
-      });
     }
     setLoading(false);
   };
@@ -112,21 +109,41 @@ export function StartAccount(props: Props) {
       )}
       <Card className="mb-4">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">
-            {isLogin ? 'Login' : 'Register'}
-          </CardTitle>
-          <CardDescription>
-            {isLogin
-              ? 'Enter your email below to login to your account'
-              : 'Enter your email below to register your account'}
-          </CardDescription>
+          {!loading && !sent && (
+            <>
+              <CardTitle className="text-2xl">
+                {isLogin ? 'Login' : 'Register'}
+              </CardTitle>
+              <CardDescription>
+                {isLogin
+                  ? 'Enter your email below to login to your account'
+                  : 'Enter your email below to register your account'}
+              </CardDescription>
+            </>
+          )}
+          {loading && !sent && (
+            <>
+              <CardTitle className="text-2xl">Loading</CardTitle>
+              <CardDescription>
+                Please wait while we are processing your request.
+              </CardDescription>
+            </>
+          )}
+          {sent && (
+            <>
+              <CardTitle className="text-2xl">Email Sent</CardTitle>
+              <CardDescription>
+                Please check your email and click the link to continue.
+              </CardDescription>
+            </>
+          )}
         </CardHeader>
         {loading && (
           <CardContent className="flex justify-center p-10">
             <Loader />
           </CardContent>
         )}
-        {!loading && (
+        {!loading && !sent && (
           <>
             <CardContent className="grid gap-4">
               <div className="grid gap-2">

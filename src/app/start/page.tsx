@@ -23,9 +23,9 @@ export default async function StartPage() {
           </div>
           <div className="w-full h-full"></div>
         </div>
-        <div className="flex-1 flex p-12 items-center justify-center">
+        <div className="xl:flex-1 flex p-12 lg:p-8 max-sm:p-4 items-center justify-center  max-lg:w-full">
           <div className="max-w-[600px]">
-            <h1 className="text text-7xl text-outline font-bold uppercase mb-4 text-center">
+            <h1 className="text text-7xl max-sm:text-5xl text-outline font-bold uppercase mb-4 text-center">
               SKETCH BLEND
             </h1>
             <StartAccount isLogin />

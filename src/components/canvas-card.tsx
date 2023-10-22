@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader } from './ui/card';
 import { CardDescription, CardTitle } from './registry/card';
 import { Button } from './ui/button';
+import BlurImage from './blur-image';
 
 interface Props {
   title?: string | null;
@@ -19,11 +20,12 @@ export default function CanvasCard(props: Props) {
           className="cursor-pointer hover:border-gray-300 hover:bg-gray-100 max-h-[800px] flex-1"
           onClick={props.onClick}
         >
-          {/* <img src={props.imageUrl} /> */}
-          <img
+          <BlurImage
             src={`data:image/svg+xml;utf8,${encodeURIComponent(
               props.imageUrl ?? ''
             )}`}
+            useNativeElement
+            alt={props.title ?? ''}
           />
         </CardHeader>
         <div className="flex justify-between items-center p-4">
