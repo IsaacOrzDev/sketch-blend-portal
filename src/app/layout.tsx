@@ -13,6 +13,21 @@ export const metadata: Metadata = {
   title: 'SKETCH BLEND',
   description:
     'A drawing and sharing portal that is powered by micro-service architecture in Kubernetes with AWS, and multiple backend lanaguages linked with Grpc',
+  openGraph: {
+    title: 'SKETCH BLEND',
+    siteName: 'SKETCH BLEND',
+    description:
+      'A drawing and sharing portal that is powered by micro-service architecture in Kubernetes with AWS, and multiple backend lanaguages linked with Grpc',
+    type: 'website',
+    url: process.env.NEXT_PUBLIC_BASE_URL,
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/static/images/og.png`,
+        width: 700,
+        height: 485,
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
