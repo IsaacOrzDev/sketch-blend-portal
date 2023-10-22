@@ -188,7 +188,7 @@ export default function GenerationDialog(props: Props) {
             <AlertDialogCancel onClick={props.onClose}>
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction onClick={share}>Share it</AlertDialogAction>
+            <AlertDialogAction onClick={share}>Post it!</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       )}

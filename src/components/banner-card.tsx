@@ -9,7 +9,7 @@ export default function BannerCard() {
       <CardContent>
         <div className="absolute top-0 left-0 w-full h-full bg-secondary-foreground  z-10 opacity-30" />
         <h1 className="text text-outline text-4xl font-bold absolute z-20 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-          Sketch, Generate and Share
+          Sketch, Generate and Post
         </h1>
         <BlurImage
           src={'/static/images/banner.png'}

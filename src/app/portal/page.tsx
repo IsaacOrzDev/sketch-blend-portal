@@ -6,6 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import Footer from '@/components/footer';
 import SuccessSharedDialog from './success-shrared-dialog';
 import UserPostsGrid from './user-posts-grid';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface Props {
   searchParams: { isFirstTime: string; isConfetti?: string };
@@ -18,8 +19,8 @@ export default async function PortalPage(props: Props) {
   const isConfetti = props.searchParams.isConfetti === 'true';
 
   return (
-    <>
-      <div className="w-full min-h-screen flex flex-col items-center overflow-y-auto">
+    <ScrollArea className="mx-auto w-full">
+      <div className="w-full min-h-screen flex flex-col items-center">
         <div className="w-full flex flex-col justify-start lg:max-w-6xl max-xl:px-4 gap-4 m-10">
           <Label className="text text-xl">My Sketches</Label>
           <Separator className="mb-6" />
@@ -33,6 +34,6 @@ export default async function PortalPage(props: Props) {
       <FullScreenConfetti show={isFirstTime || isConfetti} />
       <FirstTimeDialog open={isFirstTime} />
       <SuccessSharedDialog open={isConfetti} />
-    </>
+    </ScrollArea>
   );
 }

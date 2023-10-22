@@ -5,6 +5,7 @@ import Footer from '@/components/footer';
 import { cookies } from 'next/headers';
 import COOKIES_CONFIG from '@/config/cookie-config';
 import PublicPostsGrid from './public-posts-grid';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,12 +24,15 @@ export default async function PostsPage() {
   return (
     <div className="flex flex-col w-full">
       <Header profile={profile?.data} />
-      <div className="w-full flex flex-col items-center overflow-y-auto">
-        <div className="lg:max-w-6xl w-full max-xl:px-4">
-          <BannerCard />
+
+      <ScrollArea>
+        <div className="w-full flex flex-col items-center">
+          <div className="lg:max-w-6xl w-full max-xl:px-4">
+            <BannerCard />
+          </div>
+          <PublicPostsGrid />
         </div>
-        <PublicPostsGrid />
-      </div>
+      </ScrollArea>
       <Footer hasPlaceholder />
     </div>
   );

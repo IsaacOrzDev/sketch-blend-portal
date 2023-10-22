@@ -80,9 +80,9 @@ export default function Header(props: Props) {
                     </DropdownMenuLabel>
                     <DropdownMenuLabel>{props.profile.email}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={goToHome}>
+                    {/* <DropdownMenuItem onClick={goToHome}>
                       Home Page
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={goToProfile}>
                       My Sketches
