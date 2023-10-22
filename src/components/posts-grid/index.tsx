@@ -49,8 +49,10 @@ export default function PostsGrid(props: Props) {
       );
       grid[index].items.push(item);
       grid[index].height +=
-        (item.record?.imageInfo?.height ?? 0) +
-          (item.record?.sourceImageInfo?.height ?? 0) ?? item.height;
+        (item.record?.imageInfo?.height ?? 0) /
+          (item.record?.imageInfo?.width ?? 250 / 250) +
+          (item.record?.sourceImageInfo?.height ?? 0) /
+            (item.record?.sourceImageInfo?.width ?? 250 / 250) ?? item.height;
     });
     setItems(grid);
   };

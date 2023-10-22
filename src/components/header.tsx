@@ -49,9 +49,9 @@ export default function Header(props: Props) {
   return (
     <>
       <div className="w-full h-20 fixed z-30 flex justify-center items-center bg-background border-b border-black max-xl:px-4">
-        <div className="w-full flex justify-between lg:max-w-6xl">
+        <div className="w-full flex justify-between items-center lg:max-w-6xl">
           <Link href="/">
-            <h1 className="text text-3xl text-outline font-bold uppercase m-0">
+            <h1 className="text text-3xl max-sm:text-xl text-outline font-bold uppercase m-0">
               Sketch Blend
             </h1>
           </Link>

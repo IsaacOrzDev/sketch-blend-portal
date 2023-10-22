@@ -86,6 +86,10 @@ export default function GenerationDialog(props: Props) {
     }
   };
 
+  const retry = () => {
+    setStage('prompt');
+  };
+
   const share = async () => {
     setStage('loading');
     try {
@@ -113,7 +117,7 @@ export default function GenerationDialog(props: Props) {
   return (
     <AlertDialog open={props.open}>
       {stage === 'prompt' && (
-        <AlertDialogContent>
+        <AlertDialogContent className="max-sm:h-full">
           <AlertDialogHeader>
             <AlertDialogTitle>
               Generate new image base on your sketch
@@ -126,7 +130,7 @@ export default function GenerationDialog(props: Props) {
             src={`data:image/svg+xml;utf8,${encodeURIComponent(
               props.sourceImage ?? ''
             )}`}
-            className="rounded-sm border-2 border-primary"
+            className="rounded-sm border-2 border-primary mx-auto max-sm:max-h-[300px]"
             alt="source"
             useNativeElement
           />
@@ -165,16 +169,18 @@ export default function GenerationDialog(props: Props) {
         </AlertDialogContent>
       )}
       {stage === 'loading' && (
-        <AlertDialogContent>
+        <AlertDialogContent className="max-sm:h-full">
           <AlertDialogHeader>
             <AlertDialogTitle>Loading</AlertDialogTitle>
             <AlertDescription>It may take a few minutes.</AlertDescription>
           </AlertDialogHeader>
-          <Loader />
+          <div className="mx-auto">
+            <Loader />
+          </div>
         </AlertDialogContent>
       )}
       {stage === 'generated' && (
-        <AlertDialogContent>
+        <AlertDialogContent className="max-sm:h-full overflow-y-auto">
           <AlertDialogHeader>
             <AlertDialogTitle>Completed!</AlertDialogTitle>
             <AlertDialogDescription>
@@ -183,14 +189,14 @@ export default function GenerationDialog(props: Props) {
             <BlurImage
               src={generatedImage}
               alt="generated"
-              className="rounded-sm"
+              className="rounded-sm  mx-auto max-h-[250px]"
               useNativeElement
             />
             <BlurImage
               src={`data:image/svg+xml;utf8,${encodeURIComponent(
                 props.sourceImage ?? ''
               )}`}
-              className="mt-4 rounded-sm border-2 border-primary"
+              className="mt-4 rounded-sm border-2 border-primary mx-auto max-h-[250px]"
               alt="source"
               useNativeElement
             />
@@ -201,6 +207,9 @@ export default function GenerationDialog(props: Props) {
               onTouchEnd={props.onClose}
             >
               Cancel
+            </AlertDialogCancel>
+            <AlertDialogCancel onClick={retry} onTouchEnd={retry}>
+              Retry
             </AlertDialogCancel>
             <AlertDialogAction onClick={share} onTouchEnd={share}>
               Post it!

@@ -8,6 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogDescription,
+  AlertDialogCancel,
 } from '@/components/ui/alert-dialog';
 import { PostRecord } from '@/types';
 import Image from 'next/image';
@@ -22,7 +23,7 @@ interface Props {
 export default function SourceDialog(props: Props) {
   return (
     <AlertDialog open={props.open}>
-      <AlertDialogContent>
+      <AlertDialogContent className="max-sm:h-full">
         <AlertDialogHeader>
           <AlertDialogTitle>{props.record?.prompt}</AlertDialogTitle>
           <AlertDialogDescription>{props.record?.id}</AlertDialogDescription>
@@ -32,21 +33,21 @@ export default function SourceDialog(props: Props) {
               width={props.record?.imageInfo?.width ?? 0}
               height={props.record?.imageInfo?.height ?? 0}
               alt="generated image"
-              className="rounded-sm"
+              className="rounded-sm mx-auto max-h-[300px]"
             />
             <BlurImage
               src={props.record?.sourceImageUrl ?? ''}
               width={props.record?.sourceImageInfo?.width ?? 0}
               height={props.record?.sourceImageInfo?.height ?? 0}
               alt="source image"
-              className="rounded-sm border-2 border-primary"
+              className="rounded-sm border-2 border-primary mx-auto max-h-[300px]"
             />
           </div>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction onClick={props.onClose} onTouchEnd={props.onClose}>
+          <AlertDialogCancel onClick={props.onClose} onTouchEnd={props.onClose}>
             Close
-          </AlertDialogAction>
+          </AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
