@@ -121,7 +121,7 @@ export default function GenerationDialog(props: Props) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Generate Image base on your sketch
+              Generate new image base on your sketch
             </AlertDialogTitle>
             <AlertDescription>
               You can generate a new image based on your drawing and a prompt.

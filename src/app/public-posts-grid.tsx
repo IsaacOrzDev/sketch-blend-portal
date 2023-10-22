@@ -22,11 +22,18 @@ export default function PublicPostsGrid() {
 
   if (isLoading)
     return (
-      <div className="mt-10 mb-10 flex gap-4 w-full lg:max-w-6xl">
-        <Skeleton className="flex-1 h-[550px] rounded" />
-        <Skeleton className="flex-1 h-[550px] rounded" />
-        <Skeleton className="flex-1 h-[550px] rounded" />
-      </div>
+      <>
+        <div className="mt-10 mb-10 flex gap-4 w-full lg:max-w-6xl">
+          <Skeleton className="flex-1 h-[250px] rounded" />
+          <Skeleton className="flex-1 h-[250px] rounded" />
+          <Skeleton className="flex-1 h-[250px] rounded" />
+        </div>
+        <div className="flex gap-4 w-full lg:max-w-6xl">
+          <Skeleton className="flex-1 h-[550px] rounded" />
+          <Skeleton className="flex-1 h-[550px] rounded" />
+          <Skeleton className="flex-1 h-[550px] rounded" />
+        </div>
+      </>
     );
 
   return (
