@@ -4,6 +4,7 @@ import COOKIES_CONFIG from '@/config/cookie-config';
 import fetchService from '@/services/fetch-service';
 import ProfileProvider from '@/components/profile-provider';
 import Header from '@/components/header';
+import PageHandler from '@/components/page-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,6 +32,7 @@ export default async function PortalLayout({
     <ProfileProvider {...profile.data}>
       <Header profile={profile.data} />
       <div className="flex w-full">{children}</div>
+      <PageHandler />
     </ProfileProvider>
   );
 }

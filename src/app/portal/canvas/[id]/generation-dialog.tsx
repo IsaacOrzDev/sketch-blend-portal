@@ -131,7 +131,7 @@ export default function GenerationDialog(props: Props) {
             useNativeElement
           />
           <Form {...form}>
-            <form className="w-2/3 space-y-6">
+            <form className="w-full space-y-6">
               <FormField
                 control={form.control}
                 name="prompt"
@@ -139,7 +139,7 @@ export default function GenerationDialog(props: Props) {
                   <FormItem>
                     <FormLabel>Prompt</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input className="w-full" placeholder="" {...field} />
                     </FormControl>
                     <FormDescription>Please input any text</FormDescription>
                     <FormMessage />

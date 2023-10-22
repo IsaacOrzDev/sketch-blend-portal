@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import GoogleProvider from '@/components/google-provider';
 import { Toaster } from '@/components/ui/toaster';
 import FullScreenLoader from '@/components/full-screen-loader';
+import PageHandler from '@/components/page-handler';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({
         </ThemeProvider>
         <div className="paperOverlay select-none" />
         {/* <TouchHandler /> */}
+        <PageHandler />
       </body>
     </html>
   );
