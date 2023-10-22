@@ -12,12 +12,12 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'SKETCH BLEND',
   description:
-    'A drawing and sharing portal that is powered by micro-service architecture in Kubernetes with AWS, and multiple backend lanaguages linked with Grpc',
+    'A drawing and sharing website that is powered by micro-service architecture in Kubernetes with AWS, and multiple backend languages',
   openGraph: {
     title: 'SKETCH BLEND',
     siteName: 'SKETCH BLEND',
     description:
-      'A drawing and sharing portal that is powered by micro-service architecture in Kubernetes with AWS, and multiple backend lanaguages linked with Grpc',
+      'A drawing and sharing website that is powered by micro-service architecture in Kubernetes with AWS, and multiple backend languages',
     type: 'website',
     url: process.env.NEXT_PUBLIC_BASE_URL,
     images: [
@@ -37,6 +37,21 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/static/favicon.png" sizes="32x32" />
+        <link
+          rel="icon"
+          href="/icon.png?<generated>"
+          type="image/<generated>"
+          sizes="<generated>"
+        />
+        <link
+          rel="apple-touch-icon"
+          href="/icon.png?<generated>"
+          type="image/<generated>"
+          sizes="<generated>"
+        />
+      </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <GoogleProvider>
