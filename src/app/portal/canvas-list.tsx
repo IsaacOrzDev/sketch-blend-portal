@@ -60,7 +60,11 @@ export default function CanvasList() {
         title: 'Deleted',
       });
       // await mutate();
-      setAllRecords(allRecords.filter((record) => record.id !== id));
+      const index = allRecords.findIndex((record) => record.id === id);
+      setAllRecords([
+        ...allRecords.slice(0, index),
+        ...allRecords.slice(index + 1),
+      ]);
       setShowLoader(false);
     } catch (err) {
       alert(err);
