@@ -11,6 +11,9 @@ const useProgressiveImg = (lowQualitySrc: string, highQualitySrc: string) => {
       setSrc(highQualitySrc);
       setLoading(false);
     };
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
   }, [lowQualitySrc, highQualitySrc]);
   return {
     src,

@@ -131,6 +131,7 @@ export default function GenerationDialog(props: Props) {
             src={`data:image/svg+xml;utf8,${encodeURIComponent(
               props.sourceImage ?? ''
             )}`}
+            className="rounded-sm border-2 border-primary"
           />
           <Form {...form}>
             <form className="w-2/3 space-y-6">
@@ -174,15 +175,15 @@ export default function GenerationDialog(props: Props) {
           <AlertDialogHeader>
             <AlertDialogTitle>Completed!</AlertDialogTitle>
             <AlertDialogDescription>
-              You have generate a image based on your sketch.
+              You have generate a new image based on your sketch.
             </AlertDialogDescription>
+            <img src={generatedImage} className="rounded-sm" />
             <img
               src={`data:image/svg+xml;utf8,${encodeURIComponent(
                 props.sourceImage ?? ''
               )}`}
-              className="mb-4"
+              className="mt-4 rounded-sm border-2 border-primary"
             />
-            <img src={generatedImage} />
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={props.onClose}>

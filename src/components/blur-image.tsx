@@ -24,7 +24,7 @@ export default function BlurImage(props: Props) {
       src={src}
       alt={props.alt}
       className={cn(
-        `object-cover duration-800 ease-in-out ${props.className}`,
+        `object-cover duration-1000 ease-in-out ${props.className}`,
         blur ? 'blur-[20px]' : 'blur-0'
       )}
     />
