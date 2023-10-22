@@ -11,8 +11,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Menu } from 'lucide-react';
+import { Menu, Plus } from 'lucide-react';
 import Link from 'next/link';
+import useAddingNewSketch from '@/hooks/use-adding-new-sketch';
 
 interface Props {
   profile?: {
@@ -43,6 +44,8 @@ export default function Header(props: Props) {
     router.push('/api/auth/signout');
   };
 
+  const onCreate = useAddingNewSketch();
+
   return (
     <>
       <div className="w-full h-20 fixed z-30 flex justify-center items-center bg-background border-b border-black max-xl:px-4">
@@ -59,15 +62,10 @@ export default function Header(props: Props) {
           )}
           {isLogin && props.profile && (
             <>
-              <div className="flex items-center">
-                <Avatar className="w-8 h-8 mr-4">
-                  {props.profile.imageUrl && (
-                    <AvatarImage src={props.profile.imageUrl} />
-                  )}
-                  <AvatarFallback>
-                    {props.profile.username.slice(0, 2).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
+              <div className="flex items-center gap-2">
+                <Button variant="outline" onClick={onCreate}>
+                  <Plus />
+                </Button>
                 <DropdownMenu>
                   <Button asChild variant="outline">
                     <DropdownMenuTrigger>
@@ -76,18 +74,37 @@ export default function Header(props: Props) {
                   </Button>
                   <DropdownMenuContent>
                     <DropdownMenuLabel>
-                      {props.profile.username}
+                      <Avatar className="w-8 h-8 mr-4">
+                        {props.profile.imageUrl && (
+                          <AvatarImage src={props.profile.imageUrl} />
+                        )}
+                        <AvatarFallback>
+                          {props.profile.username.slice(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
                     </DropdownMenuLabel>
-                    <DropdownMenuLabel>{props.profile.email}</DropdownMenuLabel>
+                    {props.profile.username && (
+                      <DropdownMenuLabel>
+                        {props.profile.username}
+                      </DropdownMenuLabel>
+                    )}
+                    {props.profile.email && (
+                      <DropdownMenuLabel>
+                        {props.profile.email}
+                      </DropdownMenuLabel>
+                    )}
                     <DropdownMenuSeparator />
                     {/* <DropdownMenuItem onClick={goToHome}>
                       Home Page
                     </DropdownMenuItem> */}
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={goToProfile}>
+                    <DropdownMenuItem
+                      onClick={goToProfile}
+                      onTouchEnd={goToProfile}
+                    >
                       My Sketches
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={signOut}>
+                    <DropdownMenuItem onClick={signOut} onTouchEnd={signOut}>
                       Signout
                     </DropdownMenuItem>
                   </DropdownMenuContent>

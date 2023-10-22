@@ -4,11 +4,7 @@ import React from 'react';
 import { Card } from './ui/card';
 import { CardTitle } from './registry/card';
 import { Plus } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import fetchService from '@/services/fetch-service';
-import { useAtom } from 'jotai';
-import { loadingAtom } from '@/state/ui';
-import { toast } from './ui/use-toast';
+import useAddingNewSketch from '@/hooks/use-adding-new-sketch';
 
 interface Props {
   title?: string | null;
@@ -17,25 +13,7 @@ interface Props {
 }
 
 export default function NewCanvasCard(props: Props) {
-  const router = useRouter();
-  const [, setLoading] = useAtom(loadingAtom);
-
-  const onCreate = async () => {
-    setLoading(true);
-    const response = await fetchService.POST('/documents/create/empty', {});
-
-    if (response.error) {
-      setLoading(false);
-      alert(response.error);
-
-      return;
-    }
-    router.push(`/portal/canvas/${response.data?.id}`);
-    setLoading(false);
-    toast({
-      title: 'Please draw anything on the canvas to generate new image.',
-    });
-  };
+  const onCreate = useAddingNewSketch();
 
   return (
     <Card
