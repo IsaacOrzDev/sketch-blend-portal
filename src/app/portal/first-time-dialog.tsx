@@ -40,8 +40,23 @@ export default function FirstTimeDialog(props: Props) {
           <AlertDialogTitle>Welcome!</AlertDialogTitle>
           <AlertDialogDescription>
             Sketch Blend is a demo website offers users the ability to draw
-            sketches, generate new images based on their sketches using Stable
-            Diffusion, and post these images with others.
+            sketches, generate new images based on their sketches using{' '}
+            <a
+              href="https://github.com/Stability-AI/stablediffusion"
+              className="underline"
+              target="_blank"
+            >
+              Stable Diffusion
+            </a>{' '}
+            and{' '}
+            <a
+              href="https://github.com/lllyasviel/ControlNet"
+              className="underline"
+              target="_blank"
+            >
+              ControlNet
+            </a>
+            , and post these images with others.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

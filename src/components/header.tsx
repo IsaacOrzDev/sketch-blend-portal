@@ -105,7 +105,7 @@ export default function Header(props: Props) {
                       My Sketches
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={signOut} onTouchEnd={signOut}>
-                      Signout
+                      Logout
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

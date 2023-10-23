@@ -29,6 +29,32 @@ export default async function PostsPage() {
         <div className="w-full flex flex-col items-center">
           <div className="lg:max-w-6xl w-full max-xl:px-4">
             <BannerCard />
+            <p className="w-full max-xl:px-4 my-4">
+              Sketch Blend is a demo website offers users the ability to draw
+              sketches, generate new images based on their sketches using{' '}
+              <a
+                href="https://github.com/Stability-AI/stablediffusion"
+                className="underline"
+                target="_blank"
+              >
+                Stable Diffusion
+              </a>{' '}
+              and{' '}
+              <a
+                href="https://github.com/lllyasviel/ControlNet"
+                className="underline"
+                target="_blank"
+              >
+                ControlNet
+              </a>
+              , and post these images with others.
+              <br />
+            </p>
+            {!profile && (
+              <p className="w-full max-xl:px-4 my-4">
+                You need to login first to draw, generate and post your images.
+              </p>
+            )}
           </div>
           <PublicPostsGrid />
         </div>
