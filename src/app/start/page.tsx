@@ -16,6 +16,7 @@ export default async function StartPage() {
           <div className="">
             <BlurImage
               src="/static/images/login.png"
+              thumbnailStc="/static/images/login_thumbnail.png"
               alt="cover"
               layout="fill"
               className=""

@@ -13,6 +13,7 @@ export default function BannerCard() {
         </h1>
         <BlurImage
           src={'/static/images/banner.png'}
+          thumbnailStc="/static/images/banner_thumbnail.png"
           className="object-center"
           layout="fill"
           alt="banner"
