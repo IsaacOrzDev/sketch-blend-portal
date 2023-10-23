@@ -7,6 +7,7 @@ import COOKIES_CONFIG from '@/config/cookie-config';
 import PublicPostsGrid from './public-posts-grid';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import Link from 'next/link';
+import { Separator } from '@/components/ui/separator';
 
 export const dynamic = 'force-dynamic';
 
@@ -60,6 +61,7 @@ export default async function PostsPage() {
                 first to draw, generate and post your images.
               </p>
             )}
+            <Separator />
           </div>
           <PublicPostsGrid />
         </div>
