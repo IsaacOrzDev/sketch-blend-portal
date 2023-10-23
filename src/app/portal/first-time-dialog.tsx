@@ -9,7 +9,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { useRouter } from 'next/navigation';
+import useAddingNewSketch from '@/hooks/use-adding-new-sketch';
 import { useEffect, useState } from 'react';
 
 interface Props {
@@ -19,7 +19,7 @@ interface Props {
 export default function FirstTimeDialog(props: Props) {
   const [open, setOpen] = useState(false);
 
-  const router = useRouter();
+  const onCreate = useAddingNewSketch();
 
   useEffect(() => {
     if (props.open) {
@@ -30,21 +30,23 @@ export default function FirstTimeDialog(props: Props) {
 
   const confirm = () => {
     setOpen(false);
-    router.replace('/portal');
+    onCreate();
   };
 
   return (
     <AlertDialog open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Welcome</AlertDialogTitle>
+          <AlertDialogTitle>Welcome!</AlertDialogTitle>
           <AlertDialogDescription>
-            You can draw on the canvas and generate new image with AI.
+            Sketch Blend is a demo website offers users the ability to draw
+            sketches, generate new images based on their sketches using Stable
+            Diffusion, and post these images with others.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogAction onClick={confirm} onTouchEnd={confirm}>
-            Continue
+            Continue to draw
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

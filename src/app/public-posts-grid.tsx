@@ -18,6 +18,16 @@ export default function PublicPostsGrid() {
       .then((res) => res.data)
   );
 
+  if (error) {
+    return (
+      <div className="mt-10">
+        <h2 className="text-2xl font-bold">
+          The backend is turn off because the developer want to save money.
+        </h2>
+      </div>
+    );
+  }
+
   return (
     <PostsGrid
       items={
