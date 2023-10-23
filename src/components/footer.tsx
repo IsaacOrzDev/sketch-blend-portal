@@ -1,4 +1,4 @@
-import { Github, Book } from 'lucide-react';
+import { Github, Book, Figma } from 'lucide-react';
 
 interface Props {
   hasPlaceholder?: boolean;
@@ -27,11 +27,17 @@ export default function Footer(props: Props) {
             </a>
             .
           </p>
-          <div className="flex items-center ml-4 gap-4">
-            <a href={process.env.NEXT_PUBLIC_DOCUMENTATION_URL}>
+          <div className="flex items-center gap-4 max-sm:gap-2">
+            <a href={process.env.NEXT_PUBLIC_FIGMA_URL} target="_blank">
+              <Figma />
+            </a>
+            <a href={process.env.NEXT_PUBLIC_DOCUMENTATION_URL} target="_blank">
               <Book />
             </a>
-            <a href={process.env.NEXT_PUBLIC_GITHUB_PROJECT_URL}>
+            <a
+              href={process.env.NEXT_PUBLIC_GITHUB_PROJECT_URL}
+              target="_blank"
+            >
               <Github />
             </a>
           </div>
