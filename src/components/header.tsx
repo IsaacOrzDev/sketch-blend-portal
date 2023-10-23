@@ -21,6 +21,7 @@ interface Props {
     email?: string | null;
     imageUrl?: string | null;
   };
+  onlyLogo?: boolean;
 }
 
 export default function Header(props: Props) {
@@ -55,63 +56,70 @@ export default function Header(props: Props) {
               Sketch Blend
             </h1>
           </Link>
-          {!isLogin && (
-            <Button variant="outline" onClick={start}>
-              LOGIN
-            </Button>
-          )}
-          {isLogin && props.profile && (
+          {!props.onlyLogo && (
             <>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" onClick={onCreate}>
-                  <Plus />
+              {!isLogin && (
+                <Button variant="outline" onClick={start}>
+                  LOGIN
                 </Button>
-                <DropdownMenu>
-                  <Button asChild variant="outline">
-                    <DropdownMenuTrigger>
-                      <Menu />
-                    </DropdownMenuTrigger>
-                  </Button>
-                  <DropdownMenuContent>
-                    <DropdownMenuLabel>
-                      <Avatar className="w-8 h-8 mr-4">
-                        {props.profile.imageUrl && (
-                          <AvatarImage src={props.profile.imageUrl} />
+              )}
+              {isLogin && props.profile && (
+                <>
+                  <div className="flex items-center gap-2">
+                    <Button variant="outline" onClick={onCreate}>
+                      <Plus />
+                    </Button>
+                    <DropdownMenu>
+                      <Button asChild variant="outline">
+                        <DropdownMenuTrigger>
+                          <Menu />
+                        </DropdownMenuTrigger>
+                      </Button>
+                      <DropdownMenuContent>
+                        <DropdownMenuLabel>
+                          <Avatar className="w-8 h-8 mr-4">
+                            {props.profile.imageUrl && (
+                              <AvatarImage src={props.profile.imageUrl} />
+                            )}
+                            <AvatarFallback>
+                              {props.profile.username.slice(0, 2).toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                        </DropdownMenuLabel>
+                        {props.profile.username && (
+                          <DropdownMenuLabel>
+                            {props.profile.username}
+                          </DropdownMenuLabel>
                         )}
-                        <AvatarFallback>
-                          {props.profile.username.slice(0, 2).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                    </DropdownMenuLabel>
-                    {props.profile.username && (
-                      <DropdownMenuLabel>
-                        {props.profile.username}
-                      </DropdownMenuLabel>
-                    )}
-                    {props.profile.email && (
-                      <DropdownMenuLabel>
-                        {props.profile.email}
-                      </DropdownMenuLabel>
-                    )}
-                    <DropdownMenuSeparator />
-                    {/* <DropdownMenuItem onClick={goToHome}>
+                        {props.profile.email && (
+                          <DropdownMenuLabel>
+                            {props.profile.email}
+                          </DropdownMenuLabel>
+                        )}
+                        <DropdownMenuSeparator />
+                        {/* <DropdownMenuItem onClick={goToHome}>
                       Home Page
                     </DropdownMenuItem> */}
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      onClick={goToProfile}
-                      onTouchEnd={goToProfile}
-                    >
-                      My Sketches
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={signOut} onTouchEnd={signOut}>
-                      Logout
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          onClick={goToProfile}
+                          onTouchEnd={goToProfile}
+                        >
+                          My Sketches
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={signOut}
+                          onTouchEnd={signOut}
+                        >
+                          Logout
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </>
+              )}
             </>
-          )}
+          )}  
         </div>
       </div>
       <div className="w-full h-20 mb-4" />

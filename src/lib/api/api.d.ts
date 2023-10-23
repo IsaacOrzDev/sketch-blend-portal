@@ -55,11 +55,12 @@ export interface paths {
   "/posts/user": {
     get: operations["PostController_getListByUser"];
   };
+  "/posts/{id}": {
+    get: operations["PostController_getOne"];
+    delete: operations["PostController_delete"];
+  };
   "/posts/create": {
     post: operations["PostController_create"];
-  };
-  "/posts/{id}": {
-    delete: operations["PostController_delete"];
   };
   "/posts/{id}/like": {
     post: operations["PostController_like"];
@@ -177,6 +178,18 @@ export interface components {
     };
     GetPostListResponse: {
       records: components["schemas"]["PostRecord"][];
+    };
+    PostDetailRecord: {
+      id: string;
+      prompt: string;
+      imageUrl: string;
+      sourceImageUrl: string;
+      userInfo: components["schemas"]["UserInfo"];
+      imageInfo: components["schemas"]["ImageInfo"];
+      sourceImageInfo: components["schemas"]["ImageInfo"];
+    };
+    GetPostResponse: {
+      record: components["schemas"]["PostDetailRecord"];
     };
     CreatePostDto: {
       prompt: string;
@@ -399,6 +412,12 @@ export interface operations {
     };
   };
   DocumentController_getList: {
+    parameters: {
+      query?: {
+        offset?: number;
+        limit?: number;
+      };
+    };
     responses: {
       200: {
         content: {
@@ -596,16 +615,16 @@ export interface operations {
       };
     };
   };
-  PostController_create: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreatePostDto"];
+  PostController_getOne: {
+    parameters: {
+      path: {
+        id: string;
       };
     };
     responses: {
-      201: {
+      200: {
         content: {
-          "application/json": components["schemas"]["CreatePostResponse"];
+          "application/json": components["schemas"]["GetPostResponse"];
         };
       };
       /** @description Bad Request */
@@ -632,6 +651,32 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  PostController_create: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreatePostDto"];
+      };
+    };
+    responses: {
+      201: {
+        content: {
+          "application/json": components["schemas"]["CreatePostResponse"];
         };
       };
       /** @description Bad Request */

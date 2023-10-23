@@ -13,6 +13,7 @@ import {
 import { PostRecord } from '@/types';
 import Image from 'next/image';
 import BlurImage from '../blur-image';
+import { toast } from '../ui/use-toast';
 
 interface Props {
   record?: PostRecord | null;
@@ -23,6 +24,16 @@ interface Props {
 }
 
 export default function SourceDialog(props: Props) {
+  const copy = () => {
+    window.navigator.clipboard.writeText(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/posts/${props.record?.id}`
+    );
+    toast({
+      title: 'Copied',
+      content: 'Copied',
+    });
+  };
+
   return (
     <AlertDialog open={props.open}>
       <AlertDialogContent className="max-sm:h-full">
@@ -51,13 +62,17 @@ export default function SourceDialog(props: Props) {
             Close
           </AlertDialogCancel>
           {props.isOwner && (
-            <AlertDialogAction
+            <AlertDialogCancel
+              className="max-sm:mb-2"
               onClick={props.onDelete}
               onTouchEnd={props.onDelete}
             >
               Delete
-            </AlertDialogAction>
+            </AlertDialogCancel>
           )}
+          <AlertDialogAction onClick={copy} onTouchEnd={copy}>
+            Copy link
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
