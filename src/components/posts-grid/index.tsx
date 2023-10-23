@@ -4,7 +4,6 @@ import { PostRecord } from '@/types';
 import ImageGridItem from './image-grid-item';
 import SourceDialog from './source-dialog';
 import { useEffect, useState } from 'react';
-import fetchService from '@/services/fetch-service';
 import { Skeleton } from '../ui/skeleton';
 
 interface Props {
@@ -68,7 +67,7 @@ export default function PostsGrid(props: Props) {
         className={`w-full lg:max-w-6xl gridContainer max-xl:px-4 max-lg:flex max-lg:flex-col ${props.className}`}
       >
         {items.map((col, index) => (
-          <div key={index} className="grid subGrid">
+          <div key={index} className="grid subGrid max-sm:mt-4">
             {col.items.map((item, index) => (
               <ImageGridItem
                 key={index}
@@ -80,8 +79,6 @@ export default function PostsGrid(props: Props) {
                     setSourceOpen(true);
                   }
                 }}
-                isOwner={props.isOwner}
-                onClickDelete={() => props.onDelete?.(item.record?.id ?? '')}
               />
             ))}
           </div>
@@ -101,6 +98,11 @@ export default function PostsGrid(props: Props) {
         open={sourceOpen}
         record={selectedPost}
         onClose={() => setSourceOpen(false)}
+        isOwner={props.isOwner}
+        onDelete={() => {
+          setSourceOpen(false);
+          props.onDelete?.(selectedPost?.id ?? '');
+        }}
       />
     </>
   );

@@ -12,7 +12,6 @@ interface Props {
     name: string;
     imageUrl?: string | null;
   };
-  isOwner?: boolean;
   imageInfo?: {
     width: number;
     height: number;
@@ -22,7 +21,6 @@ interface Props {
     height: number;
   };
   onClickSource?: () => void;
-  onClickDelete?: () => void;
 }
 
 export default function ImageGridItem(props: Props) {
@@ -65,16 +63,9 @@ export default function ImageGridItem(props: Props) {
           <div className="flex items-center">
             <span className="text text-md mr-2">{props.prompt}</span>
           </div>
-          {!props.isOwner && (
-            <Button variant="outline" onClick={props.onClickSource}>
-              View Details
-            </Button>
-          )}
-          {props.isOwner && (
-            <Button variant="outline" onClick={props.onClickDelete}>
-              Delete
-            </Button>
-          )}
+          <Button variant="outline" onClick={props.onClickSource}>
+            View Details
+          </Button>
         </div>
       </CardContent>
     </Card>

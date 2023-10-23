@@ -17,7 +17,9 @@ import BlurImage from '../blur-image';
 interface Props {
   record?: PostRecord | null;
   open?: boolean;
+  isOwner?: boolean;
   onClose?: () => void;
+  onDelete?: () => void;
 }
 
 export default function SourceDialog(props: Props) {
@@ -48,6 +50,14 @@ export default function SourceDialog(props: Props) {
           <AlertDialogCancel onClick={props.onClose} onTouchEnd={props.onClose}>
             Close
           </AlertDialogCancel>
+          {props.isOwner && (
+            <AlertDialogAction
+              onClick={props.onDelete}
+              onTouchEnd={props.onDelete}
+            >
+              Delete
+            </AlertDialogAction>
+          )}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -6,6 +6,7 @@ import { cookies } from 'next/headers';
 import COOKIES_CONFIG from '@/config/cookie-config';
 import PublicPostsGrid from './public-posts-grid';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
@@ -52,7 +53,11 @@ export default async function PostsPage() {
             </p>
             {!profile && (
               <p className="w-full max-xl:px-4 my-4">
-                You need to login first to draw, generate and post your images.
+                You need to{' '}
+                <Link href="/start" className="underline">
+                  login
+                </Link>{' '}
+                first to draw, generate and post your images.
               </p>
             )}
           </div>
