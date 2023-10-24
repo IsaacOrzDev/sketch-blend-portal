@@ -43,15 +43,19 @@ export default function PostsGrid(props: Props) {
       { items: [], height: 0 },
     ];
     props.items.forEach((item) => {
-      const index = grid.findIndex(
-        (row) => row.height === Math.min(...grid.map((row) => row.height))
-      );
+      const index = grid.findIndex((row) => {
+        return (
+          Math.ceil(row.height) ===
+          Math.ceil(Math.min(...grid.map((row) => row.height)))
+        );
+      });
       grid[index].items.push(item);
       grid[index].height +=
-        (item.record?.imageInfo?.height ?? 0) /
+        ((item.record?.imageInfo?.height ?? 0) /
           (item.record?.imageInfo?.width ?? 250 / 250) +
           (item.record?.sourceImageInfo?.height ?? 0) /
-            (item.record?.sourceImageInfo?.width ?? 250 / 250) ?? item.height;
+            (item.record?.sourceImageInfo?.width ?? 250 / 250) ?? item.height) +
+        68;
     });
     setItems(grid);
   };

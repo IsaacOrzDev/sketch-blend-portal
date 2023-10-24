@@ -143,7 +143,7 @@ export default function SketchCanvasPanel(props: Props) {
         strokeWidth={strokeWidth}
         strokeColor={theme === 'light' ? 'black' : 'white'}
       />
-      <div className="fixed top-[100px] left-0 w-full py-2 px-4 flex justify-between items-center">
+      <div className="fixed top-[100px] left-0 py-2 px-4 flex justify-between items-center w-fit">
         <div className="flex gap-x-2">
           <Button
             variant="outline"

@@ -26,11 +26,13 @@ export async function generateMetadata(
   });
 
   return {
-    title: 'Sketch Blend',
-    description: post.data?.record.prompt ?? '',
+    title: post.data?.record.prompt ?? '',
+    description:
+      'Sketch Blend is a demo website offers users the ability to draw sketches, generate new images based on their sketches using Stable Diffusion and ControlNet, and post these images with others.',
     openGraph: {
-      title: 'Sketch Blend',
-      description: post.data?.record.prompt ?? '',
+      title: post.data?.record.prompt ?? '',
+      description:
+        'Sketch Blend is a demo website offers users the ability to draw sketches, generate new images based on their sketches using Stable Diffusion and ControlNet, and post these images with others.',
       images: [post.data?.record.imageUrl ?? ''],
     },
   };

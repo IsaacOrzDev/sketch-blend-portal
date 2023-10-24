@@ -86,6 +86,7 @@ export default function CanvasList() {
       .then((res) => res.data);
     if (data?.records.length === 0) {
       setShowLoadMore(false);
+      toast({ title: 'No more records' });
     } else {
       setAllRecords([...allRecords, ...(data?.records ?? [])]);
     }
@@ -113,7 +114,7 @@ export default function CanvasList() {
           </>
         )}
       </div>
-      {showLoadMore && (
+      {showLoadMore && !isLoading && (
         <Button variant="outline" onClick={loadMore}>
           Load More
         </Button>

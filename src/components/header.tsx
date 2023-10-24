@@ -96,7 +96,6 @@ export default function Header(props: Props) {
                             {props.profile.email}
                           </DropdownMenuLabel>
                         )}
-                        <DropdownMenuSeparator />
                         {/* <DropdownMenuItem onClick={goToHome}>
                       Home Page
                     </DropdownMenuItem> */}
@@ -105,7 +104,7 @@ export default function Header(props: Props) {
                           onClick={goToProfile}
                           onTouchEnd={goToProfile}
                         >
-                          My Sketches
+                          My Sketches and Posts
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={signOut}
@@ -119,7 +118,7 @@ export default function Header(props: Props) {
                 </>
               )}
             </>
-          )}  
+          )}
         </div>
       </div>
       <div className="w-full h-20 mb-4" />

@@ -2,6 +2,7 @@ import BlurImage from '../blur-image';
 import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
 import { Separator } from '../ui/separator';
+import { PictureInPicture2 } from 'lucide-react';
 
 interface Props {
   height?: number;
@@ -60,11 +61,11 @@ export default function ImageGridItem(props: Props) {
         )}
         <Separator />
         <div className="p-4 flex justify-between items-center bg-background">
-          <div className="flex items-center">
-            <span className="text text-md mr-2">{props.prompt}</span>
+          <div className="flex items-center mr-2">
+            <span className="text text-md text-ellipsis">{props.prompt}</span>
           </div>
           <Button variant="outline" onClick={props.onClickSource}>
-            View Details
+            <PictureInPicture2 />
           </Button>
         </div>
       </CardContent>
