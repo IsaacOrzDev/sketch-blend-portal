@@ -8,6 +8,7 @@ import PublicPostsGrid from './public-posts-grid';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import Link from 'next/link';
 import { Separator } from '@/components/ui/separator';
+import { Alert } from '@/components/ui/alert';
 
 export const dynamic = 'force-dynamic';
 
@@ -62,8 +63,14 @@ export default async function PostsPage() {
               </p>
             )}
             <Separator />
+            {process.env.NEXT_PUBLIC_IS_OFFLINE === 'true' && (
+              <Alert>
+                The Kubnernetes cluster is off because the developer want to
+                save money 💵, so the backend is not working right now.
+              </Alert>
+            )}
           </div>
-          <PublicPostsGrid />
+          {process.env.NEXT_PUBLIC_IS_OFFLINE !== 'true' && <PublicPostsGrid />}
         </div>
       </ScrollArea>
       <Footer hasPlaceholder />
