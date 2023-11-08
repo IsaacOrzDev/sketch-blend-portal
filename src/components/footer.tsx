@@ -1,6 +1,6 @@
 import { Github, Book, Figma } from 'lucide-react';
 import { Alert } from './ui/alert';
-import { isClusterExist } from '@/lib/server-utils';
+import { getDocUrl, isClusterExist } from '@/lib/server-utils';
 
 interface Props {
   hasPlaceholder?: boolean;
@@ -13,8 +13,12 @@ export default function Footer(props: Props) {
         <div className="max-h-40 py-4 w-full lg:max-w-6xl">
           {!isClusterExist() && (
             <Alert className="mb-4 bg-yellow-300">
-              The developer has turned off the Kubnernetes cluster to save money
-              💵, so the website can only be used for viewing at the moment.
+              The developer has shut down the{' '}
+              <a href="https://kubernetes.io/" className="underline">
+                Kubnernetes
+              </a>{' '}
+              cluster to save money 💵, the website can only be used for viewing
+              at the moment.
             </Alert>
           )}
           <div className="w-full flex justify-between items-center">
@@ -40,10 +44,7 @@ export default function Footer(props: Props) {
               <a href={process.env.NEXT_PUBLIC_FIGMA_URL} target="_blank">
                 <Figma />
               </a>
-              <a
-                href={process.env.NEXT_PUBLIC_DOCUMENTATION_URL}
-                target="_blank"
-              >
+              <a href={getDocUrl()} target="_blank">
                 <Book />
               </a>
               <a

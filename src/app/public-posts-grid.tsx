@@ -22,7 +22,12 @@ export default function PublicPostsGrid() {
     return (
       <div className="mt-10">
         <h2 className="text-2xl font-bold">
-          The backend is turn off because the developer want to save money.
+          The developer has shut down the{' '}
+          <a href="https://kubernetes.io/" className="underline">
+            Kubnernetes
+          </a>{' '}
+          cluster to save money 💵, the website can only be used for viewing at
+          the moment.
         </h2>
       </div>
     );
