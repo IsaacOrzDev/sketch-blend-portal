@@ -29,6 +29,12 @@ export interface paths {
   "/generator/predict/{documentId}/scribble": {
     post: operations["GeneratorController_scribblePredict"];
   };
+  "/generator/predict/{documentId}/scribble-background": {
+    post: operations["GeneratorController_scribblePredictInBackground"];
+  };
+  "/generator/predict/status/{taskId}": {
+    post: operations["GeneratorController_scribblePredictStatus"];
+  };
   "/generator/predict/{documentId}/caption": {
     post: operations["GeneratorController_CaptionPredict"];
   };
@@ -68,20 +74,20 @@ export interface paths {
   "/posts/{id}/unlike": {
     post: operations["PostController_unlike"];
   };
-  "/testing/access-token/generate": {
-    post: operations["TestingController_generateAccessToken"];
+  "/dev/access-token/generate": {
+    post: operations["DevController_generateAccessToken"];
   };
-  "/testing/auth/test": {
-    get: operations["TestingController_getTesting"];
+  "/dev/auth/test": {
+    get: operations["DevController_getTesting"];
   };
-  "/testing/auth/password-less/generate": {
-    post: operations["TestingController_generatePasswordLessToken"];
+  "/dev/auth/password-less/generate": {
+    post: operations["DevController_generatePasswordLessToken"];
   };
-  "/testing/bucket/upload": {
-    post: operations["TestingController_uploadFile"];
+  "/dev/bucket/upload": {
+    post: operations["DevController_uploadFile"];
   };
-  "/testing/image/size": {
-    get: operations["TestingController_getImageSize"];
+  "/dev/image/size": {
+    get: operations["DevController_getImageSize"];
   };
 }
 
@@ -122,6 +128,16 @@ export interface components {
     };
     ScribblePredictBody: {
       prompt: string;
+    };
+    ScribblePredictResponse: {
+      url: string;
+    };
+    ScribblePredictInBackgroundResponse: {
+      id: string;
+    };
+    ScribblePredictStatusResponse: {
+      status: string;
+      url: string | null;
     };
     DocumentRecord: {
       id: string;
@@ -360,6 +376,7 @@ export interface operations {
     parameters: {
       query: {
         prompt: string;
+        imageUrl: string;
       };
     };
     responses: {
@@ -394,8 +411,79 @@ export interface operations {
       };
     };
     responses: {
-      201: {
-        content: never;
+      200: {
+        content: {
+          "application/json": components["schemas"]["ScribblePredictResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  GeneratorController_scribblePredictInBackground: {
+    parameters: {
+      path: {
+        documentId: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ScribblePredictBody"];
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["ScribblePredictInBackgroundResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  GeneratorController_scribblePredictStatus: {
+    parameters: {
+      path: {
+        taskId: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["ScribblePredictStatusResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
       };
     };
   };
@@ -745,7 +833,7 @@ export interface operations {
       };
     };
   };
-  TestingController_generateAccessToken: {
+  DevController_generateAccessToken: {
     requestBody: {
       content: {
         "application/json": components["schemas"]["GenerateTokenDto"];
@@ -757,14 +845,14 @@ export interface operations {
       };
     };
   };
-  TestingController_getTesting: {
+  DevController_getTesting: {
     responses: {
       200: {
         content: never;
       };
     };
   };
-  TestingController_generatePasswordLessToken: {
+  DevController_generatePasswordLessToken: {
     requestBody: {
       content: {
         "application/json": components["schemas"]["AddOneTimeTokenDto"];
@@ -776,7 +864,7 @@ export interface operations {
       };
     };
   };
-  TestingController_uploadFile: {
+  DevController_uploadFile: {
     requestBody: {
       content: {
         "application/json": components["schemas"]["BucketUploadDto"];
@@ -788,7 +876,7 @@ export interface operations {
       };
     };
   };
-  TestingController_getImageSize: {
+  DevController_getImageSize: {
     parameters: {
       query: {
         imageUrl: string;

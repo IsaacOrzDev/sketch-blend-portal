@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { Input } from '@/components/ui/input';
@@ -42,10 +42,15 @@ const FormSchema = z.object({
   }),
 });
 
+function wait(milliseconds: number) {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
 export default function GenerationDialog(props: Props) {
   const [stage, setStage] = useState<'prompt' | 'loading' | 'generated'>(
     'prompt'
   );
+  const [taskId, setTaskId] = useState<string>('');
   const [generatedImage, setGeneratedImage] = useState<string>('');
 
   const router = useRouter();
@@ -64,9 +69,8 @@ export default function GenerationDialog(props: Props) {
   const generate = async (data: z.infer<typeof FormSchema>) => {
     setStage('loading');
     try {
-      let url = '';
       const response = await fetchService
-        .POST('/generator/predict/{documentId}/scribble', {
+        .POST('/generator/predict/{documentId}/scribble-background', {
           params: {
             path: { documentId: props.documentId },
           },
@@ -76,15 +80,56 @@ export default function GenerationDialog(props: Props) {
         })
         .then((res) => res.data);
 
-      url = (response as any).url;
-      setGeneratedImage(url);
-      setStage('generated');
+      setTaskId(response?.id ?? '');
+      // setGeneratedImage(url);
+      // setStage('generated');
       // router.push(url);
     } catch (err) {
       alert(err);
       setStage('prompt');
     }
   };
+
+  const checkStatus = useCallback(async () => {
+    try {
+      const response = await fetchService.POST(
+        '/generator/predict/status/{taskId}',
+        {
+          params: {
+            path: { taskId },
+          },
+        }
+      );
+      if (response.data?.status === 'succeeded') {
+        setGeneratedImage(response.data.url ?? '');
+        setTaskId('');
+        setStage('generated');
+        return true;
+      } else if (response.data?.status === 'failed') {
+        toast({
+          title: 'Something went wrong. Please try again.',
+          type: 'foreground',
+        });
+        setTaskId('');
+        setStage('prompt');
+        return true;
+      }
+    } catch (err) {
+      alert(err);
+      setTaskId('');
+      setStage('prompt');
+      return true;
+    }
+    return false;
+  }, [taskId]);
+
+  const keepCheckingStatus = useCallback(async () => {
+    let stop = false;
+    while (!stop) {
+      stop = await checkStatus();
+      await wait(3000);
+    }
+  }, [checkStatus]);
 
   const retry = () => {
     setStage('prompt');
@@ -107,12 +152,17 @@ export default function GenerationDialog(props: Props) {
       }
 
       router.push('/portal?isConfetti=true');
-      console.log('response', response);
     } catch (err) {
       alert(err);
       setStage('prompt');
     }
   };
+
+  useEffect(() => {
+    if (taskId && stage === 'loading') {
+      keepCheckingStatus();
+    }
+  }, [keepCheckingStatus, stage, taskId]);
 
   return (
     <AlertDialog open={props.open}>
